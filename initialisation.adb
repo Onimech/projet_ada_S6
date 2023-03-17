@@ -66,10 +66,25 @@ package body initialisation is
       tete.suiv.suiv.suiv.suiv.suiv.argent_semaine := 0;
       tete.suiv.suiv.suiv.suiv.suiv.DM_depart := false;
       ----------------------------------------------------------
+      
+      procedure iniF (racine : in out T_noeudF) is
+   
+   famille := T_famille;
+   
+   begin
+   --famille 1-----------------------------------------------
+   famille.nomF :="Montalbano"&(11..30=>' ');
+   famille.NBE := 2;
+   famille.ages(T_ageE'first) := 5;
+   familles.ages(T_ageE'first +1) :=10;
+   ------------------------------------------------------------_
+   
+   
+   
 
    end inibs;
 
-   -------------------------------------------------------------------------------------------
+  
 
 
 
