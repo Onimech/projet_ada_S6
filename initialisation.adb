@@ -151,6 +151,21 @@ package body initialisation is
    -----------------------------------------------------------------------------
 
 
+BS.identite.nom := "Alouette"&(9..30=>' ');
+      BS.identite.prenom := "Marie"&(6..30=>' ');
+      BS.age := 17;
+      BS.plcours := (others => (others => (others => ' ' )));
+      BS.plcours(lundi,soir):="Montalbano";
+      BS.plcours(mercredi,matin):="Brunetti";
+      BS.plcours(mercredi,aprem):="Brunetti";
+      BS.plcours(jeudi,aprem):="Le Floch";
+      BS.plcours(samedi,soir):="Le Floch";
+      BS.plsuiv := (others => (others => (others => ' ' )));
+      BS.argent_semaine := 0;
+      BS.DM_depart := false;
+      tete := new T_cellB'(BS, null);
+
+
 
 
 
