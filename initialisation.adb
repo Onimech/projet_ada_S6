@@ -86,7 +86,51 @@ package body initialisation is
 
   
 
-
+--famille 2-----------------------------------------------
+   famille.nomF :="Rouletabille"&(13..30=>' ');
+   famille.NBE := 1;
+   famille.ages(T_ageE'first) := 9;
+   racine.fd := new t_noeudF'(famille,null,null);
+    ------------------------------------------------------------_
+   
+   --famille 3-----------------------------------------------
+   famille.nomF :="Burma"&(6..30=>' ');
+   famille.NBE := 4;
+   famille.ages(T_ageE'first) := 2;
+   famille.ages(T_ageE'first +1) := 4;
+   famille.ages(T_ageE'first +2) := 8;
+   famille.ages(T_ageE'first +3) := 10;
+   racine.fg := new t_noeudF'(famille,null,null);
+    ------------------------------------------------------------_
+   
+   --famille 4-----------------------------------------------
+   famille.nomF :="Brunetti"&(9..30=>' ');
+   famille.NBE := 3;
+   famille.ages(T_ageE'first) := 5;
+   famille.ages(T_ageE'first +1) := 7;
+   famille.ages(T_ageE'first +2) := 12;
+   racine.fg.fg := new t_noeudF'(famille,null,null);
+    ------------------------------------------------------------_
+   
+   --famille 5-----------------------------------------------
+   famille.nomF :="Poirot"&(7..30=>' ');
+   famille.NBE := 5;
+   famille.ages(T_ageE'first) := 1;
+   famille.ages(T_ageE'first +1) := 3;
+   famille.ages(T_ageE'first +2) := 5;
+   famille.ages(T_ageE'first +3) := 7;
+   famille.ages(T_ageE'first +4) := 9;
+   racine.fd.fg := new t_noeudF'(famille,null,null);
+    ------------------------------------------------------------_
+   
+   --famille 6-----------------------------------------------
+   famille.nomF :="Le Floch"&(9..30=>' ');
+   famille.NBE := 3;
+   famille.ages(T_ageE'first) := 8;
+   famille.ages(T_ageE'first +1) := 9;
+   famille.ages(T_ageE'first +2) := 11;
+   racine.fg.fd := new t_noeudF'(famille,null,null);
+    ------------------------------------------------------------_
 
 
 
