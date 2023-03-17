@@ -15,26 +15,25 @@ package body initialisation is
    -- baby-sitter---------------------------------------------------------------------------
    procedure inibs (tete : in out T_PteurB) is
       BS : T_BS;
-      pl : T_planning; 
 
    begin
       -----BS 1 ------------------------------------------------
       BS.identite.nom := "Alouette"&(9..30=>' ');
       BS.identite.prenom := "Marie"&(6..30=>' ');
       BS.age := 17;
-      
+
       BS.plcours := (others => (others => (others => ' ' )));
       BS.plcours(lundi,soir):="Montalbano"&(11..30=>' ');
       BS.plcours(mercredi,matin):="Brunetti"&(9..30=>' ');
       BS.plcours(mercredi,aprem):="Brunetti"&(9..30=>' ');
       BS.plcours(jeudi,aprem):="Le Floch"&(9..30=>' ');
       BS.plcours(samedi,soir):="Le Floch"&(9..30=>' ');
-      
+
       BS.plsuiv := (others => (others => (others => ' ' )));
       BS.plsuiv(mercredi,matin):="Brunetti"&(9..30=>' ');
       BS.plsuiv(mercredi,aprem):="Brunetti"&(9..30=>' ');
-      BS.plcours(samedi,soir):="Le Floch"&(9..30=>' ');
-      
+      BS.plsuiv(samedi,soir):="Le Floch"&(9..30=>' ');
+
       BS.argent_semaine := 0;
       BS.DM_depart := false;
       tete := new T_cellB'(BS, null);
@@ -45,15 +44,15 @@ package body initialisation is
       BS.identite.nom := "Arlequin"&(9..30=>' ') ;
       BS.identite.prenom := "Marc"&(5..30=>' ') ;
       BS.age := 24;
-      
+
       BS.plcours := (others => (others => (others => ' ' )));
       BS.plcours(mercredi,matin) := "Poirot"&(7..30=>' ');
       BS.plcours(mercredi,aprem) := "Poirot"&(7..30=>' ');
       BS.plcours(mercredi,soir) := "Poirot"&(7..30=>' ');
-      BS.plcours(samedi,soir) := "Burma"&(6..30=>' '); 
-      
+      BS.plcours(samedi,soir) := "Burma"&(6..30=>' ');
+
       BS.plsuiv := (others => (others => (others => ' ' )));
-     
+
       BS.argent_semaine := 0;
       BS.DM_depart := false;
       tete.suiv := new T_cellB'(BS, null);
@@ -63,11 +62,11 @@ package body initialisation is
       BS.identite.nom := "Bergeronnette"&(14..30=>' ') ;
       BS.identite.prenom := "Aline"&(6..30=>' ') ;
       BS.age := 35;
-      
+
       BS.plcours := (others => (others => (others => ' ' )));
       BS.plsuiv := (others => (others => (others => ' ' )));
       BS.plsuiv(samedi,aprem) :="Poirot"&(7..30=>' ');
-      
+
       BS.argent_semaine := 0;
       BS.DM_depart := false;
       tete.suiv.suiv := new T_cellB'(BS, null);
@@ -77,18 +76,18 @@ package body initialisation is
       BS.identite.nom := "Bergeronnette"&(14..30=>' ') ;
       BS.identite.prenom := "Bertrand"&(9..30=>' ') ;
       BS.age := 28;
-      
+
       BS.plcours := (others => (others => (others => ' ' )));
       BS.plcours(mardi,soir):="Poirot"&(7..30=>' ');
       BS.plcours(vendredi,aprem):="Montalbano"&(11..30=>' ');
       BS.plcours(vendredi,soir):="Montalbano"&(11..30=>' ');
       BS.plcours(samedi,soir):="Rouletabille"&(13..30=>' ');
-      
+
       BS.plsuiv := (others => (others => (others => ' ' )));
-      BS.plcours(mardi,soir):="Poirot"&(7..30=>' ');
-      BS.plcours(vendredi,soir):="Poirot"&(7..30=>' ');
-      BS.plcours(samedi,soir):="Rouletabille"&(13..30=>' ');
-      
+      BS.plsuiv(mardi,soir):="Poirot"&(7..30=>' ');
+      BS.plsuiv(vendredi,soir):="Poirot"&(7..30=>' ');
+      BS.plsuiv(samedi,soir):="Rouletabille"&(13..30=>' ');
+
       BS.argent_semaine := 0;
       BS.DM_depart := false;
       tete.suiv.suiv.suiv := new T_cellB'(BS, null);
@@ -98,10 +97,10 @@ package body initialisation is
       BS.identite.nom := "Epervier"&(9..30=>' ') ;
       BS.identite.prenom := "Charles"&(8..30=>' ') ;
       BS.age := 16;
-      
+
       BS.plcours := (others => (others => (others => ' ' )));
       BS.plsuiv := (others => (others => (others => ' ' )));
-      
+
       BS.argent_semaine := 0;
       BS.DM_depart := true;
       tete.suiv.suiv.suiv.suiv := new T_cellB'(BS, null);
@@ -111,14 +110,14 @@ package body initialisation is
       BS.identite.nom := "Loriot"&(7..30=>' ') ;
       BS.identite.prenom := "Juliette"&(9..30=>' ') ;
       BS.age := 21;
-      
+
       BS.plcours := (others => (others => (others => ' ' )));
       BS.plsuiv := (others => (others => (others => ' ' )));
       BS.plcours(mercredi,aprem):="Montalbano"&(11..30=>' ');
       BS.plcours(mercredi,soir):="Montalbano"&(11..30=>' ');
       BS.plcours(vendredi,soir):="Le Floch"&(9..30=>' ');
       BS.plcours(samedi,soir) := "Burma"&(6..30=>' ');
-      
+
       BS.argent_semaine := 0;
       BS.DM_depart := false;
       tete.suiv.suiv.suiv.suiv.suiv := new T_cellB'(BS, null);
