@@ -1,5 +1,5 @@
-with ada.Text_IO, ada.Integer_Text_IO, babysitter, initialisation, famille;
-use ada.Text_IO, ada.Integer_Text_IO, babysitter, initialisation, famille;
+with ada.Text_IO, ada.Integer_Text_IO, babysitter, initialisation, famille, outils, reservation;
+use ada.Text_IO, ada.Integer_Text_IO, babysitter, initialisation, famille, outils, reservation;
 
 procedure Main is
    choix1 , choix2,choix3: Character;
@@ -12,8 +12,10 @@ procedure Main is
    Pt_BS_voulue : T_PteurB;
    jour_actuel : T_jour := dimanche; -- penser à enlever l'initialisation
 
+
 begin
    initialisationG(liste_BS,ABR_F);
+
    Put_Line("BIENVENUE SUR L APPLICATION 'NOS CHERS PETITS' !!!");
    loop
       Put_Line("Vous pouvez acceder : ");
@@ -137,7 +139,7 @@ begin
                Put("Quel est votre choix ? "); get(choix2); Skip_Line;
 
                case choix2 is
-                  when '1' => null;
+                  when '1' => resa_garde(liste_BS, ABR_F);
                   when '2' => null;
                   when '3' => null;
                   when 'X'|'x' => exit;

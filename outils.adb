@@ -16,7 +16,7 @@ package body outils is
             J := T_jour'value(s(1..k));
             exit;
          exception
-            when Constraint_Error => skip_line; put_line("Erreur de saisie, ressayez");
+            when Constraint_Error => put_line("Erreur de saisie, ressayez");
          end;
       end loop;
    end saisie_jour;
@@ -35,7 +35,7 @@ package body outils is
             C := T_creneau'value(s(1..k));
             exit;
          exception
-            when Constraint_Error => skip_line; put_line("Erreur de saisie, ressayez");
+            when Constraint_Error => put_line("Erreur de saisie, ressayez");
          end;
       end loop;
    end saisie_creneau;

@@ -141,4 +141,42 @@ Package body babysitter is
    end saisie_identite;
    ---------------------------------------------------------------------------------------------
 
+
+
+
+   -----------------fonction qui compte le nombre de garde minimun --------------------------------------------
+   function min_garde (tete : T_PteurB) return Integer is
+      paux : T_PteurB := tete;
+      min : Integer := 100;
+
+   begin
+      if paux /= null then
+         if paux.Val.nb_garde < min then
+            min := tete.val.nb_garde;
+            paux := paux.suiv;
+         else
+            paux := paux.suiv;
+         end if ;
+      end if;
+      return min;
+   end min_garde;
+   ------------------------------------------------------------------------------------------------
+
+
+   --------------function qui retourne le premier bs avec le moins de garde--------------------------
+   function moins_garde (tete : T_PteurB; min : Integer) return T_PteurB is
+   begin
+      if tete/= null then
+         if tete.Val.nb_garde = min then
+            return tete;
+         else
+            return moins_garde(tete.suiv, min);
+         end if;
+      else return (null);
+      end if;
+   end moins_garde;
+   --------------------------------------------------------------------------------------------------
+
+
+
 end babysitter;

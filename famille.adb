@@ -73,7 +73,28 @@ package body famille is
    end saisie_famille;
    -------------------------------------------------------------------------------------------------------
 
+   ---------------fonction qui associe un nom saisi à une famille-------------------------------------------
+   function famille_pointe (A : T_arbreF; nom : T_mot) return T_arbreF is
 
+   Begin
+      If A /= null then
+
+      if A.famille.nomF = nom then
+            return (A);
+         elsif A.famille.nomF<nom then
+            return(famille_pointe(A.fd, nom));
+         else
+            return(famille_pointe(A.fg,nom));
+         end if;
+      else
+         return null;
+         end if;
+
+
+
+
+end famille_pointe;
+----------------------------------------------------------------------------------------------------------------
 
 
 end famille;

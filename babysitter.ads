@@ -19,6 +19,7 @@ package babysitter is
       plsuiv : T_planning := ((others => (others => (others => ' '))));
       argent_semaine : integer := 0;
       DM_depart : boolean:= false;
+      nb_garde : Integer :=0; -- nombre de gardes prevues la semaine suivante
    end record;
    -----------------------------------------------------------------------------------------------
 
@@ -40,6 +41,8 @@ package babysitter is
    procedure Visu_Planning (P : T_planning);
    Function recherche_BS (BS_R : T_BS; tete : T_PteurB) return T_PteurB;
    Procedure saisie_identite (BS : out T_BS);
+   function min_garde (tete : T_PteurB) return Integer;
+   function moins_garde (tete : T_PteurB; min : Integer) return T_PteurB;
    -------------------------------------------------------------------------------------------------------------
 end babysitter;
 

@@ -37,6 +37,7 @@ package body initialisation is
       BS.argent_semaine := 0;
       BS.DM_depart := false;
       tete := new T_cellB'(BS, null);
+      BS.nb_garde:= 3;
       ----------------------------------------------------------
 
       ------BS 2 -----------------------------------------------
@@ -56,6 +57,7 @@ package body initialisation is
       BS.argent_semaine := 0;
       BS.DM_depart := false;
       tete.suiv := new T_cellB'(BS, null);
+       BS.nb_garde:= 0;
       ----------------------------------------------------------
 
       ------BS 3 -----------------------------------------------
@@ -70,6 +72,7 @@ package body initialisation is
       BS.argent_semaine := 0;
       BS.DM_depart := false;
       tete.suiv.suiv := new T_cellB'(BS, null);
+       BS.nb_garde:= 1;
       ----------------------------------------------------------
 
       ------BS 4 -----------------------------------------------
@@ -91,6 +94,7 @@ package body initialisation is
       BS.argent_semaine := 0;
       BS.DM_depart := false;
       tete.suiv.suiv.suiv := new T_cellB'(BS, null);
+       BS.nb_garde:= 3 ;
       ----------------------------------------------------------
 
       ------BS 5 -----------------------------------------------
@@ -104,6 +108,7 @@ package body initialisation is
       BS.argent_semaine := 0;
       BS.DM_depart := true;
       tete.suiv.suiv.suiv.suiv := new T_cellB'(BS, null);
+       BS.nb_garde:= 0 ;
       ----------------------------------------------------------
 
       ------BS 6 -----------------------------------------------
@@ -113,14 +118,15 @@ package body initialisation is
 
       BS.plcours := (others => (others => (others => ' ' )));
       BS.plsuiv := (others => (others => (others => ' ' )));
-      BS.plcours(mercredi,aprem):="Montalbano"&(11..30=>' ');
-      BS.plcours(mercredi,soir):="Montalbano"&(11..30=>' ');
-      BS.plcours(vendredi,soir):="Le Floch"&(9..30=>' ');
-      BS.plcours(samedi,soir) := "Burma"&(6..30=>' ');
+      BS.plsuiv(mercredi,aprem):="Montalbano"&(11..30=>' ');
+      BS.plsuiv(mercredi,soir):="Montalbano"&(11..30=>' ');
+      BS.plsuiv(vendredi,soir):="Le Floch"&(9..30=>' ');
+      BS.plsuiv(samedi,soir) := "Burma"&(6..30=>' ');
 
       BS.argent_semaine := 0;
       BS.DM_depart := false;
       tete.suiv.suiv.suiv.suiv.suiv := new T_cellB'(BS, null);
+       BS.nb_garde:= 4 ;
       ----------------------------------------------------------
    end inibs;
    -------------------------------------------------------------------------------------------

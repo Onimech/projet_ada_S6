@@ -27,6 +27,7 @@ Package famille is
 
    procedure visu_ABR (A : T_arbreF);
    Procedure ajout_ABR (A : in out T_arbreF; F : in out T_famille);
-    Procedure saisie_famille (F : out T_famille);
+   Procedure saisie_famille (F : out T_famille);
+   function famille_pointe (A : T_arbreF; nom : T_mot) return T_arbreF;
 
 end famille;
