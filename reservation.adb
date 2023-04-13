@@ -36,7 +36,7 @@ Package body reservation is
       ok : Boolean:= True;
 
    begin
-      if BS.Val.age > 18 then
+      if BS.Val.age < 18 then
          for i in F.ages'range loop
             if F.ages(i) < 3 then ok:= False;
             end if;
@@ -61,7 +61,6 @@ Package body reservation is
    ------------------------------------------------------------------------------------------------------------------------------------
 
 
-
    procedure resa_garde (tete : in out T_PteurB; F: T_arbreF) is
       k,min : Integer;
       C : T_creneau; --creneau demande
@@ -73,39 +72,39 @@ Package body reservation is
       aux : T_PteurB :=tete;
       ident : T_identite;
       BS_R :T_BS;
+      reattribution : boolean := false;
 
    begin
-      --saisie du nom de la famille
+      --saisie du nom de la famille---------------------------------------------------------
       Put("Quel est le nom de la famille qui souhaites reserver ? "); Get_Line(nom,k);
       nom := unification(nom);
+      ----------------------------------------------------------------------------------------
 
       Fam := famille_pointe(F, nom);
+
+
       if fam /=null then
          --saisie du creaneau et du jour
          Choix_Jour_Creneau(C,J);
+
          --verification que la famille n'a pas deja reserve sur ce creneau
          if pas_reserve(nom, tete, C, J) then
             loop
                Put_Line("Vous pouvez : (1) Demander à avoir le/la Baby-sitter précedent(e), (2) Demander un/e Baby-Sitter, (3) Ne pas avoir de préférence ");
                Put("Votre choix ? "); get(choix); Skip_Line;
+
                case choix is
+
                when '1' =>
                   ---verification qu'il existe bien un bs precedente-----------
                   if fam.famille.BSpred = null then
                      Put_Line("Vous n'avez pas de baby-sitter précedent(e), veuillez faire un autre choix");
                   else
-                     --verification que la BS est dispo et pas de probleme pour lage
-                     if verif_dispo(fam.famille.BSpred, C, J) and then verif_ageBS(fam.famille.BSpred,fam.famille) then
-                        while aux /= null loop
-                           if aux = fam.famille.BSpred then
-                              aux.Val.plsuiv(J,C) := fam.famille.nomF;
-                              aux.Val.nb_garde := aux.Val.nb_garde +1;
-                              fam.famille.BSpred := BS_choisi;
-                           end if;
-                           aux := aux.suiv;
-                        end loop;
-                        Put("La réservation est validée avec ");
+                     --verification que la BS est dispo et pas de probleme pour
+                     if verif_dispo(fam.famille.BSpred, C, J) then
 
+                        BS_choisi := cherche_BS_pred(tete, fam);
+                        Put("La réservation est validée avec "); put(BS_choisi.Val.identite.prenom); New_Line;
                      elsif verif_dispo(tete, C, J)= false then
                         put ("La/le Babysitter choisi n'est pas disponible, le choix va être attribue à la personne avec le moins de garde");
                         min := min_garde(tete);
@@ -113,57 +112,55 @@ Package body reservation is
                         while aux /= null loop
                            if aux = BS_choisi then
                               aux.Val.plsuiv(J,C) := fam.famille.nomF;
-                              aux.Val.nb_garde := aux.Val.nb_garde +1;
-                              fam.famille.BSpred := BS_choisi;
-                           end if;
-                           aux := aux.suiv;
-                        end loop;
-
-                     else
-                        put ("La/le Babysitter choisi n'est pas en mesure d'assurer la garde, le choix va être attribue à la personne avec le moins de garde");
-                        min := min_garde(tete);
-                        BS_choisi := moins_garde(tete,min);
-                        while aux /= null loop
-                           if aux = BS_choisi then
-                              aux.Val.plsuiv(J,C) := fam.famille.nomF;
-                              aux.Val.nb_garde := aux.Val.nb_garde +1;
-                              fam.famille.BSpred := BS_choisi;
                            end if;
                            aux := aux.suiv;
                         end loop;
                      end if;
                   end if;
 
+
+                  -- choix de la BS ------------------------------------------------------------------------------------------
                when '2' =>
                   loop
-                  Put_Line("Vous pouvez choisir parmis les Baby-Sitters suivants : ");
-                  BS_dispo(tete, C,J,F.famille);
-                  saisie_identite(BS_R);
+                     Put_Line("Vous pouvez choisir parmis les Baby-Sitters suivants : ");
+                     BS_dispo(tete, C,J,F.famille);
+                     saisie_identite(BS_R);
                      BS_choisi:=recherche_BS(BS_R, tete);
-                     if BS_choisi /= null and then verif_dispo(BS_choisi, C,J) then
-                        exit;
-                     else
-                        Put_Line("La/Le baby-sitter demandée n'est pas le registre, veuillez réessayer");
-                     end if;
-                  end loop;
-                  BS_choisi.Val.plsuiv(J,C) := fam.famille.nomF;
-                  BS_choisi.Val.nb_garde := aux.Val.nb_garde +1;
-                  put("La réservation avec "); put(BS_choisi.Val.identite.prenom); put("est validée. "); New_Line;
-                  exit;
 
-               when '3' =>
-                  min := min_garde(tete);
-                  BS_choisi := moins_garde(tete,min);
-                  while aux /= null loop
-                     if aux = BS_choisi then
-                        aux.Val.plsuiv(J,C) := fam.famille.nomF;
-                        aux.Val.nb_garde := aux.Val.nb_garde +1;
-                        fam.famille.BSpred := BS_choisi;
+                     if BS_choisi /= null and then verif_dispo(BS_choisi, C,J) then
+                        if verif_ageBS(BS_choisi, fam.famille) then
+                           exit;
+                        else
+                           put("La/Le baby-sitter est mineur(e) et ne peut pas s'occuper de cette garde, la garde va etre attribue a quelqu'un d'autre"); New_Line;
+                           reattribution:= true;
+                           exit;
+                        end if ;
+                     else
+                        Put_Line("La/Le baby-sitter demandée n'est pas le registre ou n'est pas disponible, veuillez réessayer");
                      end if;
-                     aux := aux.suiv;
                   end loop;
-                  Put("La garde sera assurée par "); put(fam.famille.BSpred.Val.identite.nom); put(fam.famille.BSpred.Val.identite.prenom); New_Line;
-               when others => Put_Line("Ce choix n'est pas proposé, veuillez recommencez ");
+
+                  if reattribution then
+                     reattribution_BS(BS_choisi, tete,fam.famille, C, J);
+                     enre_BS_choisi(BS_choisi, fam, J, C);
+
+                  else
+                     BS_choisi.Val.plsuiv(J,C) := fam.famille.nomF;
+                     BS_choisi.Val.nb_garde := aux.Val.nb_garde +1;
+                     put("La réservation avec "); put(BS_choisi.Val.identite.prenom); put("est validée. "); New_Line;
+                     exit;
+                  end if;
+                  ----------------------------------------------------------------------------------------------------------
+
+
+                  ----------attribution de la bs par la machine ----------------------------------------------------------------------------
+                  when '3' =>
+                     reattribution_BS(BS_choisi, tete,fam.famille, C, J);
+                     enre_BS_choisi(BS_choisi, fam, J, C);
+                  -------------------------------------------------------------------------------------------------------------
+
+
+                  when others => Put_Line("Ce choix n'est pas proposé, veuillez recommencez ");
                end case;
             end loop;
 
@@ -173,7 +170,6 @@ Package body reservation is
       else
          put("Il n'existe pas de famille à ce nom, la reservation n'a pas pu aboutir"); New_Line;
       end if;
-
    end resa_garde;
 
 
@@ -183,16 +179,60 @@ Package body reservation is
 
    begin
       if tete /= null then
-
-         --Put_Line("Aucun(e) Baby-Sitter disponible pour ce créneau");
-         if verif_dispo(tete, C, J) then -- remettre verif age BS
-         put(tete.Val.identite.nom); put(" "); put(tete.Val.identite.prenom);
+         if verif_dispo(tete, C, J) and then verif_ageBS(tete, F) then
+            put(tete.Val.identite.nom); put(" "); put(tete.Val.identite.prenom);
          end if;
          BS_dispo(tete.suiv,C,J,F);
       end if;
 
    end BS_dispo;
 
+
+
+
+
+   function cherche_BS_pred (tete : T_PteurB; nomF : T_arbreF ) return T_PteurB is
+
+   begin
+      if tete /= null then
+         if nomF.famille.BSpred.Val.identite.nom = tete.Val.identite.nom and then nomF.famille.BSpred.Val.identite.prenom = tete.Val.identite.prenom then
+            return tete;
+         else
+            if cherche_BS_pred(tete,nomF.Fg) /= null then
+               return cherche_BS_pred(tete,nomF.Fg);
+            else
+               return cherche_BS_pred(tete,nomF.Fd);
+            end if;
+         end if;
+      else
+         return null;
+
+      end if;
+   end cherche_BS_pred;
+
+
+   procedure reattribution_BS (BS_choisi : in out T_PteurB; Liste_BS : T_PteurB; Fam : T_famille; C : T_creneau; J : T_jour) is
+      min : Integer;
+
+   begin
+      loop
+         min := min_garde(Liste_BS);
+         BS_choisi := moins_garde(Liste_BS,min);
+         exit when verif_dispo(BS_choisi, C,J) and then verif_ageBS(BS_choisi, Fam) ;
+      end loop;
+      Put("La garde sera assurée par "); put(BS_choisi.Val.identite.nom); put(BS_choisi.Val.identite.prenom); New_Line;
+   end reattribution_BS;
+
+
+
+
+   procedure enre_BS_choisi (BS_choisi: T_PteurB; Fam : in out T_arbreF; J : T_jour ; C : T_creneau) is
+
+   begin
+      BS_choisi.Val.plsuiv(J,C) := fam.famille.nomF;
+      BS_choisi.Val.nb_garde := BS_choisi.Val.nb_garde +1;
+      put("La réservation avec "); put(BS_choisi.Val.identite.prenom); put("est validée. "); New_Line;
+   end enre_BS_choisi;
 
 
 
