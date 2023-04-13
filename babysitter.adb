@@ -177,6 +177,15 @@ Package body babysitter is
    end moins_garde;
    --------------------------------------------------------------------------------------------------
 
-
+   procedure modif_depart (tete : T_PteurB; BS : T_BS) is
+   begin
+      if tete /= null then
+         if BS.identite = tete.Val.identite then
+            tete.val.DM_depart := true;
+         else
+            modif_depart(tete.suiv, BS);
+         end if;
+      end if;
+      end modif_depart;
 
 end babysitter;

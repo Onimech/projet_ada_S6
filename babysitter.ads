@@ -43,6 +43,7 @@ package babysitter is
    Procedure saisie_identite (BS : out T_BS);
    function min_garde (tete : T_PteurB) return Integer;
    function moins_garde (tete : T_PteurB; min : Integer) return T_PteurB;
+    procedure modif_depart (tete : T_PteurB; BS : T_BS);
    -------------------------------------------------------------------------------------------------------------
 end babysitter;
 
