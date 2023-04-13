@@ -4,13 +4,15 @@ use outils, babysitter, famille, ada.Text_IO;
 package reservation is
 
    PROCEDURE Choix_Jour_Creneau (C : OUT T_Creneau; J : OUT T_Jour);
+   procedure BS_dispo (tete : T_PteurB; C : T_creneau; J : T_jour; F : T_famille);
+   procedure resa_garde (tete : in out T_PteurB; F: T_arbreF);
+   procedure reattribution_BS (BS_choisi : in out T_PteurB; Liste_BS : T_PteurB; Fam : T_famille; C : T_creneau; J : T_jour);
+   procedure enre_BS_choisi (BS_choisi: T_PteurB; Fam : in out T_arbreF; J : T_jour ; C : T_creneau);
+
    Function pas_reserve (fam : T_mot ; tete : T_PteurB; C : T_creneau; J : T_jour) return boolean;
    function verif_ageBS (BS : T_PteurB; F : T_famille) return boolean;
    function verif_dispo (BS : T_PteurB; C : T_creneau; J : T_jour) return boolean;
-  procedure BS_dispo (tete : T_PteurB; C : T_creneau; J : T_jour; F : T_famille);
-  procedure resa_garde (tete : in out T_PteurB; F: T_arbreF);
    function cherche_BS_pred (tete : T_PteurB; nomF : T_arbreF ) return T_PteurB;
-   procedure reattribution_BS (BS_choisi : in out T_PteurB; Liste_BS : T_PteurB; Fam : T_famille; C : T_creneau; J : T_jour);
-   procedure enre_BS_choisi (BS_choisi: T_PteurB; Fam : in out T_arbreF; J : T_jour ; C : T_creneau);
-end reservation;
+
+   end reservation;
 
