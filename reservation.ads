@@ -14,5 +14,9 @@ package reservation is
    function verif_dispo (BS : T_PteurB; C : T_creneau; J : T_jour) return boolean;
    function cherche_BS_pred (tete : T_PteurB; nomF : T_arbreF ) return T_PteurB;
 
+
+   procedure visu_garde_fam (F : T_famille; BS :T_PteurB);
+   procedure annulation (ListeBS : in out T_PteurB; F : T_arbreF) ;
+
    end reservation;
 

@@ -136,6 +136,7 @@ Package body babysitter is
       k : integer;
 
    begin
+      BS.identite.nom := ' '&(2..30=>' '); BS.identite.prenom := ' '&(2..30=>' ');
       put("Saisissez Prenom Babysitter : "); get_line(BS.identite.prenom,k); BS.identite.prenom := unification(BS.identite.prenom);
       put("Saisissez Nom Babysitter : "); get_line(BS.identite.nom,k); BS.identite.nom := unification(BS.identite.nom);
    end saisie_identite;
@@ -150,14 +151,14 @@ Package body babysitter is
       min : Integer := 100;
 
    begin
-      if paux /= null then
-         if paux.Val.nb_garde < min then
-            min := tete.val.nb_garde;
+      while paux /= null loop
+        if paux.Val.nb_garde < min then
+            min := paux.val.nb_garde;
             paux := paux.suiv;
          else
             paux := paux.suiv;
          end if ;
-      end if;
+      end loop;
       return min;
    end min_garde;
    ------------------------------------------------------------------------------------------------
@@ -177,6 +178,7 @@ Package body babysitter is
    end moins_garde;
    --------------------------------------------------------------------------------------------------
 
+   -----------demande de départ d'un/une BS---------------------------------------------
    procedure modif_depart (tete : T_PteurB; BS : T_BS) is
    begin
       if tete /= null then
@@ -186,6 +188,7 @@ Package body babysitter is
             modif_depart(tete.suiv, BS);
          end if;
       end if;
-      end modif_depart;
+   end modif_depart;
+   --------------------------------------------------------------------------------------------------
 
 end babysitter;

@@ -78,8 +78,7 @@ package body famille is
 
    Begin
       If A /= null then
-
-      if A.famille.nomF = nom then
+         if A.famille.nomF = nom then
             return (A);
          elsif A.famille.nomF<nom then
             return(famille_pointe(A.fd, nom));
@@ -88,13 +87,26 @@ package body famille is
          end if;
       else
          return null;
+      end if;
+
+
+
+
+   end famille_pointe;
+   ----------------------------------------------------------------------------------------------------------------
+
+
+   -----------------fonction pour savoir si il y a au moins un enfant de moins de 7 ans dans une famille------------
+   function moins7 (fam : T_famille) return boolean is
+   begin
+      for i in 1..Fam.NBE loop
+         if Fam.ages(i) < 7 then return true;
          end if;
+      end loop;
+      return false;
+   end moins7;
+   ------------------------------------------------------------------------------------------------------
 
-
-
-
-end famille_pointe;
-----------------------------------------------------------------------------------------------------------------
 
 
 end famille;

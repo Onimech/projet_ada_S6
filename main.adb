@@ -11,30 +11,15 @@ procedure Main is
    BS_voulue : T_BS;
    BS_depart : T_BS;
    Pt_BS_voulue : T_PteurB;
-   jour_actuel : T_jour := dimanche; -- penser à enlever l'initialisation
-Test: T_Bs;
-   t2 : T_PteurB;
+   jour_actuel : T_jour := lundi ; -- penser à enlever l'initialisation
+
+   min : Integer := 100;
 
 
 begin
-
-   test.identite.prenom := "Marie"&(6..30=>' ');
-   test.identite.nom := "Alouette"&(9..30=>' ');
-   famille.nomF :="Burma"&(6..30=>' ');
-      famille.NBE := 4;
-      famille.ages(FAMILLE.AGES'first) := 2;
-      famille.ages(FAMILLE.AGES'first +1) := 4;
-      famille.ages(FAMILLE.AGES'first +2) := 8;
-      famille.ages(FAMILLE.AGES'first +3) := 10;
-    t2 := new T_cellB'(test,null);
-   t2 := recherche_BS(test, liste_BS) ;
-
-   if verif_ageBS(t2, Famille) then
-      put("ok");
-   else
-      put("pas ok");
-   end if;
    initialisationG(liste_BS,ABR_F);
+
+
 
    Put_Line("BIENVENUE SUR L APPLICATION 'NOS CHERS PETITS' !!!");
    loop
@@ -129,7 +114,10 @@ begin
                when '4' =>
                   put_line("De quel/quelle babysitter voulez-vous connaitre le planning ?");
                   saisie_identite(BS_voulue);
+
                   Pt_BS_voulue := recherche_BS(BS_voulue, liste_BS);
+
+
 
                   if Pt_BS_voulue /= null then
                      loop
@@ -151,7 +139,7 @@ begin
 
                   when '5' => null;
                   when '6' => null;
-                  when 'X' => exit;
+                  when 'X'|'x' => exit;
                      when others => put_line("Ce choix n'est pas propose, veuillez recommencer");
                end case;
             end loop;
@@ -169,7 +157,7 @@ begin
 
                case choix2 is
                   when '1' => resa_garde(liste_BS, ABR_F);
-                  when '2' => null;-- annulation_garde(liste_BS, ABR_F);
+                  when '2' => annulation(liste_BS, ABR_F);
                   when '3' => null;
                   when 'X'|'x' => exit;
                      when others => put_line("Ce choix n'est pas propose, veuillez recommencer");
@@ -178,7 +166,7 @@ begin
 
          when '4' => null;
          when '5' => null;
-         when 'X' => exit;
+         when 'X'|'x' => exit;
             when others => put_line("Ce choix n'est pas propose, veuillez recommencer");
       end case;
    end loop;

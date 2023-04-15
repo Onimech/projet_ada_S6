@@ -36,8 +36,9 @@ package body initialisation is
 
       BS.argent_semaine := 0;
       BS.DM_depart := false;
-      tete := new T_cellB'(BS, null);
       BS.nb_garde:= 3;
+      tete := new T_cellB'(BS, null);
+
       ----------------------------------------------------------
 
       ------BS 2 -----------------------------------------------
@@ -56,8 +57,9 @@ package body initialisation is
 
       BS.argent_semaine := 0;
       BS.DM_depart := false;
+      BS.nb_garde:= 0;
       tete.suiv := new T_cellB'(BS, null);
-       BS.nb_garde:= 0;
+
       ----------------------------------------------------------
 
       ------BS 3 -----------------------------------------------
@@ -71,8 +73,9 @@ package body initialisation is
 
       BS.argent_semaine := 0;
       BS.DM_depart := false;
+      BS.nb_garde:= 0; --1
       tete.suiv.suiv := new T_cellB'(BS, null);
-       BS.nb_garde:= 1;
+
       ----------------------------------------------------------
 
       ------BS 4 -----------------------------------------------
@@ -93,8 +96,9 @@ package body initialisation is
 
       BS.argent_semaine := 0;
       BS.DM_depart := false;
+      BS.nb_garde:= 3 ;
       tete.suiv.suiv.suiv := new T_cellB'(BS, null);
-       BS.nb_garde:= 3 ;
+
       ----------------------------------------------------------
 
       ------BS 5 -----------------------------------------------
@@ -107,8 +111,9 @@ package body initialisation is
 
       BS.argent_semaine := 0;
       BS.DM_depart := true;
+      BS.nb_garde:= 0 ;
       tete.suiv.suiv.suiv.suiv := new T_cellB'(BS, null);
-       BS.nb_garde:= 0 ;
+
       ----------------------------------------------------------
 
       ------BS 6 -----------------------------------------------
@@ -125,8 +130,9 @@ package body initialisation is
 
       BS.argent_semaine := 0;
       BS.DM_depart := false;
+      BS.nb_garde:= 4 ;
       tete.suiv.suiv.suiv.suiv.suiv := new T_cellB'(BS, null);
-       BS.nb_garde:= 4 ;
+
       ----------------------------------------------------------
    end inibs;
    -------------------------------------------------------------------------------------------
@@ -185,7 +191,7 @@ package body initialisation is
       ------------------------------------------------------------
 
       --famille 6-----------------------------------------------
-      famille.nomF :="Le Floch"&(9..30=>' ');
+      famille.nomF :="Le floch"&(9..30=>' ');
       famille.NBE := 3;
       famille.ages(FAMILLE.AGES'first) := 8;
       famille.ages(FAMILLE.AGES'first +1) := 9;

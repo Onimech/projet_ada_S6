@@ -29,5 +29,6 @@ Package famille is
    Procedure ajout_ABR (A : in out T_arbreF; F : in out T_famille);
    Procedure saisie_famille (F : out T_famille);
    function famille_pointe (A : T_arbreF; nom : T_mot) return T_arbreF;
+   function moins7 (fam : T_famille) return boolean;
 
 end famille;

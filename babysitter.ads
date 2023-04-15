@@ -46,4 +46,3 @@ package babysitter is
     procedure modif_depart (tete : T_PteurB; BS : T_BS);
    -------------------------------------------------------------------------------------------------------------
 end babysitter;
-
