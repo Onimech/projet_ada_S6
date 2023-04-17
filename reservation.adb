@@ -1,5 +1,6 @@
 with outils, babysitter, famille, ada.Text_IO, tarifs, ada.Integer_Text_IO;
 use outils, babysitter, famille, ada.Text_IO, tarifs, ada.Integer_Text_IO;
+with outils, babysitter, famille, ada.Text_IO, tarifs, ada.Integer_Text_IO;
 
 
 Package body reservation is
@@ -8,19 +9,18 @@ Package body reservation is
    PROCEDURE Choix_Jour_Creneau (C : OUT T_Creneau; J : OUT T_Jour) IS
 
    BEGIN
-      Put_line("Les réservations sont possibles que pour la semaine prochaine");
-      Put("Pour quel jour souhaitez vous réserver une garde ? "); saisie_jour(J); new_line;
-      Put("Pour quel créneau souhaitez vous réserver une garde? Il est possible de réserver pour : matin, aprem ou soir"); saisie_creneau(C); new_line;
+      Put_Line("Pour quel jour ? Du lundi au samedi"); saisie_jour(J); new_line;
+      Put_Line("Pour quel créneau ? Choix disponibles matin, aprem ou soir"); saisie_creneau(C); new_line;
    END Choix_Jour_Creneau;
    ------------------------------------------------------------------------------------------------------------
 
 
    -----------------------------------------------------------------------------------------------------------------
-   Function pas_reserve (fam : T_mot ; tete : T_PteurB; C : T_creneau; J : T_jour) return boolean is
+   Function pas_reserve (fam : T_arbreF ; tete : T_PteurB; C : T_creneau; J : T_jour) return boolean is
 
    Begin
       if tete /= null then
-         if tete.val.plsuiv(J,C) = fam then
+         if tete.val.plsuiv(J,C) = fam.famille.nomF then
             return (false);
          else
             return(pas_reserve(fam,tete.suiv,C,J));
@@ -62,7 +62,6 @@ Package body reservation is
 
    ------------------procedure qui permet la reservation d'une garde-----------------------------------------------
    procedure resa_garde (tete : in out T_PteurB; F: T_arbreF) is
-      k : Integer;
       C : T_creneau; --creneau demande
       J : T_jour; --jour demande
       choix, choix2 : Character;
@@ -76,18 +75,17 @@ Package body reservation is
 
    begin
       --saisie du nom de la famille---------------------------------------------------------
-      Put("Quel est le nom de la famille qui souhaites reserver ? "); Get_Line(nom,k);
-      nom := unification(nom);
-      ----------------------------------------------------------------------------------------
-      Fam := famille_pointe(F, nom);
+      Put("Quel est le nom de la famille qui souhaites reserver ? ");
+      choix_famille (Fam,F);
 
 
       if fam /=null then
          --saisie du creaneau et du jour
+         Put_line("Les réservations sont possibles que pour la semaine prochaine");
          Choix_Jour_Creneau(C,J);
 
          --verification que la famille n'a pas deja reserve sur ce creneau
-         if pas_reserve(nom, tete, C, J) then
+         if pas_reserve(fam, tete, C, J) then
             loop
                Put_Line("Vous pouvez : (1) Demander à avoir le/la Baby-sitter précedent(e), (2) Demander un/e Baby-Sitter, (3) Ne pas avoir de préférence ");
                Put("Votre choix ? "); get(choix); Skip_Line;
@@ -161,7 +159,7 @@ Package body reservation is
 
             loop
                put("O-Reservation d'un autre creneau avec la/le meme Baby-sitter");New_Line;
-               put("X- Sortir");
+               put("X- Sortir"); New_Line;
                Put_Line("Quel est votre choix ? ");
                get(choix2); Skip_Line;
                case choix2 is
@@ -172,7 +170,7 @@ Package body reservation is
                   Choix_Jour_Creneau(C,J);
 
                   --verification que la famille n'a pas deja reserve sur ce creneau
-                  if pas_reserve(nom, tete, C, J) then
+                  if pas_reserve(fam, tete, C, J) then
 
                      -- choix de la BS ------------------------------------------------------------------------------------------
                      if BS_choisi /= null and then verif_dispo(BS_choisi, C,J) then
@@ -270,9 +268,6 @@ Package body reservation is
 
    begin
       min := min_garde(Liste_BS);
-      put(min);
-
-
       BS_choisi := moins_garde(Liste_aux,min);
 
       if verif_dispo(BS_choisi, C,J) and then verif_ageBS(BS_choisi, Fam) then
@@ -301,6 +296,8 @@ Package body reservation is
 
 
 
+
+   ---------visualisation du planning des gardes de la semaine en cours pour une famille -------------------------
    procedure visu_garde_fam_cours (F : T_famille; BS :T_PteurB; J : T_jour) is
 
    begin
@@ -321,9 +318,14 @@ Package body reservation is
       end if;
 
    end visu_garde_fam_cours;
+   --------------------------------------------------------------------------------------------------------------
 
 
 
+
+
+
+   --------visualisation du planning des gardes de la semaine à suivre pour une famille------------------------
    procedure visu_garde_fam_suiv (F : T_famille; BS :T_PteurB) is
 
    begin
@@ -345,6 +347,7 @@ Package body reservation is
 
    end visu_garde_fam_suiv;
 
+   ------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -352,39 +355,155 @@ Package body reservation is
 
    -- ================================================Annulation de gardes ======================================
 
-   procedure annulation (ListeBS : in out T_PteurB; F : T_arbreF;  J : T_jour) is
+   procedure annulation (ListeBS : in out T_PteurB; F : T_arbreF;  Jour : T_jour) is
       nom : T_mot:=' '&(2..30=>' ');
-      k: Integer;
       fam : T_arbreF; -- famille qui souhaites annuler
+      C : T_creneau; -- creneau a annuler
+      J : T_jour; -- jour a annuler
+      sem_cours : Boolean;
+      choix:Character;
 
    begin
       --quelle famille ? ---
-      Put("Quel est le nom de la famille qui souhaites annuler ? "); Get_Line(nom,k);
-      nom := unification(nom);
-
-      Fam := famille_pointe(F, nom);
+      Put("Quel est le nom de la famille qui souhaites annuler ? ");
+      choix_famille (Fam,F);
 
 
 
-      --affichages des gardes
 
       if fam /= null then
-         Put("Voici le plannning des gardes prevues pour la fin de la semaine"); New_Line;
-         visu_garde_fam_cours(fam.famille, ListeBS, J);
-         Put("Voici le plannning des gardes prevues pour la semaine prochaine"); New_Line;
-         visu_garde_fam_suiv(fam.famille, ListeBS);
+         --affichages des gardes
+         put (fam.famille.nomF);
+         affichages_gardes(fam, ListeBS, jour);
 
+         --sausie du creneau et de la semaine
+         loop
+            put("Pour quelle semaine souhaitez vous annuler ?");New_Line;
+            Put_Line("(1) Pour la semaine en cours");
+            Put_Line("(2) Pour la semaine suivante");
+            get(choix); Skip_Line;
+
+            case choix is
+               when '1' => sem_cours := true; exit;
+                  when '2' => sem_cours := false; exit;
+                  when others => Put_Line("Ce choix n'est pas propose veuillez recommencez");New_Line;
+            end case;
+         end loop;
+
+         Put_line("L'annulation est possible que pour les jours à venir");
+         Choix_Jour_Creneau(C,J);
+
+
+         if sem_cours then
+            if J > jour then
+
+               if reserve(fam,ListeBS,sem_cours,C,J) then
+                  enre_annulation(ListeBS, fam,sem_cours,j,c);
+               else
+                  put("err1");
+                  Put_Line("Aucune garde n'est prevue pour ce jour et creneau l'annulation n'a pas pu aboutir");
+               end if;
+            else
+               Put_Line("L'annulation pour un jour passe n'est pas possible, l'annulation n'a pas pu aboutir");
+            end if;
+         else --annulation pour la semaine suivante
+            if reserve(fam, ListeBS, sem_cours, c, j)  then
+               enre_annulation(ListeBS, fam,sem_cours,j,c);
+            else
+               put("err2");
+               Put_Line("Aucune garde n'est prevue pour ce jour et creneau l'annulation n'a pas pu aboutir");
+            end if;
+         end if;
       else
-         put("pas de famille");
+         Put_Line("La famille n'a pas ete trouvé dans le registre veuillez resssayer");
       end if;
 
 
    end annulation;
+   ---------------------------------------------------------------------------------------------------------------------
+
+
+   -------------enregistrement de l'annulation--------------------------------------------------------------------------
+   procedure enre_annulation (ListeBS: in out T_PteurB; Fam : T_arbreF; sem_cours : Boolean; J : T_jour ; C : T_creneau) is
+      fact : Integer := 0;
+
+   begin
+      if  ListeBS /= null then
+         for jour in T_jour range lundi..samedi loop
+            for creneau in T_creneau'range loop
+
+               if sem_cours then
+                  if ListeBS.Val.plcours(J,C) = fam.famille.nomF then
+                     ListeBS.Val.plcours(j,C) := "                              ";
+                     ListeBS.Val.nb_garde := ListeBS.Val.nb_garde -1;
+                     put("La réservation avec "); put(ListeBS.Val.identite.prenom); put("est annulee. "); New_Line;
+                  end if;
+               else
+                  if ListeBS.Val.plsuiv(J,C) = fam.famille.nomF then
+                     ListeBS.Val.plsuiv(J,C) := "                              ";
+                     ListeBS.Val.nb_garde := ListeBS.Val.nb_garde -1;
+                     put("La réservation avec "); put(ListeBS.Val.identite.prenom); put("est annulee. "); New_Line;
+                  end if;
+               end if;
+
+            end loop;
+         end loop;
+         enre_annulation(ListeBS.suiv, fam,  sem_cours, j, c);
+      end if;
+   end enre_annulation;
+   ------------------------------------------------------------------------------------------------------------------------
+
+
+   -------------------------verification q'une reservation est bien prevue----------------------------------------------------
+   Function reserve (fam : T_arbreF ; tete : T_PteurB; sem_cours : Boolean; C : T_creneau; J : T_jour) return boolean is
+
+   Begin
+      if tete /= null then
+         if sem_cours then
+            if tete.val.plcours(J,C) = fam.famille.nomF then
+               return (True);
+            else
+               return(reserve(fam,tete.suiv,sem_cours,C,J));
+            end if;
+         else
+            if tete.val.plsuiv(J,C) = fam.famille.nomF then
+               return (True);
+            else
+               return(reserve(fam,tete.suiv,sem_cours,C,J));
+            end if;
+         end if;
+      end if;
+      return(false);
+   end reserve;
+   -----------------------------------------------------------------------------------------------------------------------------
+
+
+   -----------affichages des gardes prevue pour les deux semaines------------------------------------------------------
+   procedure affichages_gardes (Fam : T_arbreF; ListeBS : T_PteurB; Jour : T_jour) is
+
+   begin
+      Put("Voici le plannning des gardes prevues pour la fin de la semaine"); New_Line;
+      visu_garde_fam_cours(fam.famille, ListeBS, Jour);
+      Put("Voici le plannning des gardes prevues pour la semaine prochaine"); New_Line;
+      visu_garde_fam_suiv(fam.famille, ListeBS);
+   end affichages_gardes;
+   ----------------------------------------------------------------------------------------------------------------------
 
 
 
 
+   ----choix de la famille------------------------------------------------------
+   procedure choix_famille (Fam: out T_arbreF; F : T_arbreF ) is
+      k : Integer;
+      nom : t_mot :=' '&(2..30=>' ');
 
+   begin
+      Put("Nom de la famille : ");
+      Get_Line(nom,k);
+      nom := unification(nom);
+      Fam := famille_pointe(F, nom);
+   end choix_famille;
+   -----------------------------------------------------------------------------
 
 
 

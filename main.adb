@@ -2,7 +2,7 @@ with ada.Text_IO, ada.Integer_Text_IO, babysitter, initialisation, famille, outi
 use ada.Text_IO, ada.Integer_Text_IO, babysitter, initialisation, famille, outils, reservation;
 
 procedure Main is
-   choix1 , choix2,choix3: Character;
+   choix1 , choix2: Character;
    bs_ajout : t_bs;
    liste_BS : T_PteurB;
    sortie : boolean;
@@ -51,20 +51,7 @@ begin
                when '2' => saisie_famille(Famille); ajout_ABR(ABR_F,famille);
                when '3' => null;
                when '4' =>
-                  loop
-                     Put_Line("Vous pouvez visualiser le planning de");
-                     Put_Line("1- La semaine en cours");
-                     Put_Line("2- La semaine suivante");
-                     Put_Line("X- Sortir");
-
-                     Put("Quel est votre choix ? "); get(choix3); Skip_Line;
-                     case choix3 is
-                     when '1' => null;
-                     when'2' => null;
-                     when 'X'|'x' => exit;
-                        when others => Put_Line("Ce choix n'est pas proposé, veuillez recommencer");
-                     end case;
-                  end loop;
+                  affichages_gardes(ABR_F,liste_BS, jour_actuel);
 
 
                when '5' => null;
@@ -82,7 +69,7 @@ begin
                Put_Line("2- Ajouter une/un baby-sitter  ");
                Put_Line("3- Effectuer une demande de départ");
                Put_Line("4- Affichage plannings de la semaine ");
-               Put_Line("5- Statistiques liées aux familles ");
+               Put_Line("5- Statistiques liées aux baby-sitters ");
                Put_Line("6- Afficher les demandes de départs");
                Put_Line("X- Sortir");
 

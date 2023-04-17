@@ -26,13 +26,13 @@ package body initialisation is
       BS.plcours(lundi,soir):="Montalbano"&(11..30=>' ');
       BS.plcours(mercredi,matin):="Brunetti"&(9..30=>' ');
       BS.plcours(mercredi,aprem):="Brunetti"&(9..30=>' ');
-      BS.plcours(jeudi,aprem):="Le Floch"&(9..30=>' ');
-      BS.plcours(samedi,soir):="Le Floch"&(9..30=>' ');
+      BS.plcours(jeudi,aprem):="Le floch"&(9..30=>' ');
+      BS.plcours(samedi,soir):="Le floch"&(9..30=>' ');
 
       BS.plsuiv := (others => (others => (others => ' ' )));
       BS.plsuiv(mercredi,matin):="Brunetti"&(9..30=>' ');
       BS.plsuiv(mercredi,aprem):="Brunetti"&(9..30=>' ');
-      BS.plsuiv(samedi,soir):="Le Floch"&(9..30=>' ');
+      BS.plsuiv(samedi,soir):="Le floch"&(9..30=>' ');
 
       BS.argent_semaine := 0;
       BS.DM_depart := false;
@@ -125,7 +125,7 @@ package body initialisation is
       BS.plsuiv := (others => (others => (others => ' ' )));
       BS.plsuiv(mercredi,aprem):="Montalbano"&(11..30=>' ');
       BS.plsuiv(mercredi,soir):="Montalbano"&(11..30=>' ');
-      BS.plsuiv(vendredi,soir):="Le Floch"&(9..30=>' ');
+      BS.plsuiv(vendredi,soir):="Le floch"&(9..30=>' ');
       BS.plsuiv(samedi,soir) := "Burma"&(6..30=>' ');
 
       BS.argent_semaine := 0;
