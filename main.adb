@@ -11,7 +11,7 @@ procedure Main is
    BS_voulue : T_BS;
    BS_depart : T_BS;
    Pt_BS_voulue : T_PteurB;
-   jour_actuel : T_jour := lundi ; -- penser à enlever l'initialisation
+   jour_actuel : T_jour := mardi ; -- penser à enlever l'initialisation
 
    min : Integer := 100;
 
@@ -157,7 +157,7 @@ begin
 
                case choix2 is
                   when '1' => resa_garde(liste_BS, ABR_F);
-                  when '2' => annulation(liste_BS, ABR_F);
+                  when '2' => annulation(liste_BS, ABR_F, jour_actuel);
                   when '3' => null;
                   when 'X'|'x' => exit;
                      when others => put_line("Ce choix n'est pas propose, veuillez recommencer");

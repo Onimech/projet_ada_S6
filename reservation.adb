@@ -301,12 +301,12 @@ Package body reservation is
 
 
 
-   procedure visu_garde_fam (F : T_famille; BS :T_PteurB) is
+   procedure visu_garde_fam_cours (F : T_famille; BS :T_PteurB; J : T_jour) is
 
    begin
       if  BS /= null then
 
-         for i in T_jour range lundi..samedi loop
+         for i in T_jour range J..samedi loop
             for j in T_creneau'range loop
                if BS.Val.plcours(i,j) = F.nomF then
                   put(T_jour'image(i)); put(" "); put(T_creneau'image(j)); put(" :");
@@ -317,13 +317,33 @@ Package body reservation is
             end loop;
          end loop;
 
-         visu_garde_fam(F,BS.suiv);
+         visu_garde_fam_cours(F,BS.suiv, J);
       end if;
 
-   end visu_garde_fam;
+   end visu_garde_fam_cours;
 
 
 
+   procedure visu_garde_fam_suiv (F : T_famille; BS :T_PteurB) is
+
+   begin
+      if  BS /= null then
+
+         for i in T_jour range lundi..samedi loop
+            for j in T_creneau'range loop
+               if BS.Val.plsuiv(i,j) = F.nomF then
+                  put(T_jour'image(i)); put(" "); put(T_creneau'image(j)); put(" :");
+                  put(BS.Val.identite.nom);
+                  put(BS.Val.identite.prenom);
+                  New_Line;
+               end if;
+            end loop;
+         end loop;
+
+         visu_garde_fam_suiv(F,BS.suiv);
+      end if;
+
+   end visu_garde_fam_suiv;
 
 
 
@@ -332,7 +352,7 @@ Package body reservation is
 
    -- ================================================Annulation de gardes ======================================
 
-   procedure annulation (ListeBS : in out T_PteurB; F : T_arbreF) is
+   procedure annulation (ListeBS : in out T_PteurB; F : T_arbreF;  J : T_jour) is
       nom : T_mot:=' '&(2..30=>' ');
       k: Integer;
       fam : T_arbreF; -- famille qui souhaites annuler
@@ -347,9 +367,13 @@ Package body reservation is
 
 
       --affichages des gardes
-      if fam /= null then
 
-         visu_garde_fam(fam.famille, ListeBS);
+      if fam /= null then
+         Put("Voici le plannning des gardes prevues pour la fin de la semaine"); New_Line;
+         visu_garde_fam_cours(fam.famille, ListeBS, J);
+         Put("Voici le plannning des gardes prevues pour la semaine prochaine"); New_Line;
+         visu_garde_fam_suiv(fam.famille, ListeBS);
+
       else
          put("pas de famille");
       end if;

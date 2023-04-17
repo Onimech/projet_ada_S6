@@ -15,8 +15,9 @@ package reservation is
    function cherche_BS_pred (tete : T_PteurB; nomF : T_arbreF ) return T_PteurB;
 
 
-   procedure visu_garde_fam (F : T_famille; BS :T_PteurB);
-   procedure annulation (ListeBS : in out T_PteurB; F : T_arbreF) ;
+   procedure visu_garde_fam_cours (F : T_famille; BS :T_PteurB; J : T_jour);
+   procedure annulation (ListeBS : in out T_PteurB; F : T_arbreF; J : T_jour) ;
+   procedure visu_garde_fam_suiv (F : T_famille; BS :T_PteurB);
 
    end reservation;
 
