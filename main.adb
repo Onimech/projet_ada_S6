@@ -11,13 +11,16 @@ procedure Main is
    BS_voulue : T_BS;
    BS_depart : T_BS;
    Pt_BS_voulue : T_PteurB;
-   jour_actuel : T_jour := mardi ; -- penser à enlever l'initialisation
+   jour_actuel : T_jour := samedi ; -- penser à enlever l'initialisation
 
    min : Integer := 100;
 
 
 begin
    initialisationG(liste_BS,ABR_F);
+   montants_du(liste_BS);
+   fact_globales(ABR_F);
+
 
 
 
@@ -89,7 +92,7 @@ begin
                      put_line("Pour quelle babysitter voulez-vous faire la demande de départ ?");
                      saisie_identite(BS_depart);
                      modif_depart(liste_BS, BS_depart);
-                     put_line("la demande de départ a bien été prise en compte");
+                     put_line("La demande de départ a bien été prise en compte");
 
 
                   else put_line("la demande de départ n'est pas possible, veuillez ressayer dimanche");
@@ -98,10 +101,7 @@ begin
                when '4' =>
                   put_line("De quel/quelle babysitter voulez-vous connaitre le planning ?");
                   saisie_identite(BS_voulue);
-
                   Pt_BS_voulue := recherche_BS(BS_voulue, liste_BS);
-
-
 
                   if Pt_BS_voulue /= null then
                      loop
