@@ -288,7 +288,7 @@ Package body reservation is
       BS_choisi.Val.plsuiv(J,C) := fam.famille.nomF;
       BS_choisi.Val.nb_garde := BS_choisi.Val.nb_garde +1;
       put("La réservation avec "); put(BS_choisi.Val.identite.prenom); put("est validée. "); New_Line;
-      tarif_garde(fact, fam.famille, c);
+      fact := tarif_garde(fam.famille, c);
       put("Le montant a regler pour cette garde sera "); put(fact,2); put(" euros"); New_Line;
 
    end enre_BS_choisi;
