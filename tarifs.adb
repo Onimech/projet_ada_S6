@@ -5,7 +5,8 @@ package body tarifs is
 
 
    ---------------------procedure pour calculer le tarif d'une garde---------------------------
-   procedure tarif_garde (facture : out Integer; famille : T_famille; C : T_creneau) is
+   function tarif_garde (famille : T_famille; C : T_creneau) return integer is
+      facture : integer;
 
    begin
       ---------calcul du tarif de base------------------------------------------
@@ -36,7 +37,8 @@ package body tarifs is
             end if;
          end loop;
       end if;
+      return(facture);
    end tarif_garde;
    ----------------------------------------------------------------------------------------------------------
-
+--procedure maj_argent(tete : T_PteurB; A : T_arbreF; F : T_famille; BS :
 end tarifs;
