@@ -109,4 +109,50 @@ package body famille is
 
 
 
+
+
+   procedure supprime (fam : T_famille; Familles : in out T_arbreF) is
+   begin
+      if familles /= null then
+         if fam.nomF < familles.famille.nomF then supprime(fam,Familles.Fg);
+         elsif fam.nomF>familles.famille.nomF then supprime(fam,Familles.Fd);
+         else
+            if Familles.fg = null then
+               Familles := Familles.fd;
+            elsif FamilleS.Fd = null then
+               familles:= Familles.Fg;
+            else
+               traite_max(familles.Fg, familles.famille);
+            end if;
+         end if;
+      end if;
+   end supprime;
+
+   procedure traite_max (A : in out T_arbreF; max : out T_famille) is
+   begin
+      if A.fd = null then
+         max := A.famille;
+         A := A.fg;
+      else
+         traite_max(A.fd, max);
+      end if;
+   end traite_max;
+
+
+    ----choix de la famille------------------------------------------------------
+   procedure choix_famille (Fam: out T_arbreF; F : T_arbreF ) is
+      k : Integer;
+      nom : t_mot :=' '&(2..30=>' ');
+
+   begin
+      Put("Nom de la famille : ");
+      Get_Line(nom,k);
+      nom := unification(nom);
+      Fam := famille_pointe(F, nom);
+   end choix_famille;
+   -----------------------------------------------------------------------------
+
+
+
+
 end famille;

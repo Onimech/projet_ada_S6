@@ -21,7 +21,8 @@ package reservation is
    procedure enre_annulation (ListeBS: in out T_PteurB; Fam : T_arbreF; sem_cours : Boolean; J : T_jour ; C : T_creneau);
    Function reserve (fam : T_arbreF ; tete : T_PteurB; sem_cours : Boolean; C : T_creneau; J : T_jour) return boolean;
    procedure affichages_gardes (Fam:T_arbreF; listeBS : T_PteurB; Jour : T_jour);
-   procedure choix_famille (Fam: out T_arbreF; F : T_arbreF );
 
+   procedure supp_famille (Familles : in out  T_arbreF;listesBS: in out T_PteurB;  jour_actuel : T_jour);
+   procedure supp_gardes (ListesBS : in out T_PteurB; fam :T_famille; jour_actuel : T_jour) ;
    end reservation;
 

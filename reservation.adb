@@ -489,23 +489,51 @@ Package body reservation is
    end affichages_gardes;
    ----------------------------------------------------------------------------------------------------------------------
 
-
-
-
-   ----choix de la famille------------------------------------------------------
-   procedure choix_famille (Fam: out T_arbreF; F : T_arbreF ) is
-      k : Integer;
-      nom : t_mot :=' '&(2..30=>' ');
+   ------------procedure qui supprime la famille -----------------------------------------------------------
+   procedure supp_famille (Familles : in out  T_arbreF; ListesBS : in out T_PteurB; jour_actuel : T_jour) is
+      Fam : T_arbreF;
+      Facture : Integer := 0;
 
    begin
-      Put("Nom de la famille : ");
-      Get_Line(nom,k);
-      nom := unification(nom);
-      Fam := famille_pointe(F, nom);
-   end choix_famille;
-   -----------------------------------------------------------------------------
+      choix_famille(Fam, Familles);
+      facture := fam.famille.facture;
+      supprime(fam.famille,familles);
+      supp_gardes(ListesBS,fam.famille,jour_actuel);
+      put("La famille "); put(fam.famille.nomF); Put_Line("a bien ete supprimee");
+      put("La facture s'eleve a "); put(facture,2); put(" euro(s)."); New_Line;
+   end supp_famille;
+   -----------------------------------------------------------------------
+
+
+   ---procedure qui supprime les gardes suite au depart d'une famille--------------
+   procedure supp_gardes (ListesBS : in out T_PteurB; fam :T_famille; jour_actuel : T_jour) is
+   begin
+      if  ListesBS /= null then
+         for jour in T_jour range jour_actuel..samedi loop
+            for creneau in T_creneau'range loop
+               if ListesBS.Val.plcours(jour,creneau) = fam.nomF then
+                  ListesBS.Val.plcours(jour,creneau) := "                              ";
+                  ListesBS.Val.nb_garde := ListesBS.Val.nb_garde -1;
+               end if;
+            end loop;
+         end loop;
+         for jour in T_jour range lundi..samedi loop
+            for creneau in T_creneau'range loop
+               if ListesBS.Val.plsuiv(jour,creneau) = fam.nomF then
+                  ListesBS.Val.plsuiv(jour,creneau) := "                              ";
+                  ListesBS.Val.nb_garde := ListesBS.Val.nb_garde -1;
+               end if;
+            end loop;
+         end loop;
+         supp_gardes(ListesBS.suiv, fam, jour_actuel);
+      end if;
+   end supp_gardes;
+   ------------------------------------------------------------------------------------
 
 
 
 
-end reservation;
+
+
+
+      end reservation;

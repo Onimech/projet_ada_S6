@@ -30,5 +30,9 @@ Package famille is
    Procedure saisie_famille (F : out T_famille);
    function famille_pointe (A : T_arbreF; nom : T_mot) return T_arbreF;
    function moins7 (fam : T_famille) return boolean;
+procedure choix_famille (Fam: out T_arbreF; F : T_arbreF );
 
+
+   procedure traite_max (A : in out T_arbreF; max : out T_famille);
+   procedure supprime (fam : T_famille; Familles : in out T_arbreF);
 end famille;

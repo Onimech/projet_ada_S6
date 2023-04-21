@@ -49,11 +49,8 @@ begin
                case choix2 is
                when '1' => visu_ABR(ABR_F);
                when '2' => saisie_famille(Famille); ajout_ABR(ABR_F,famille);
-               when '3' => null;
-               when '4' =>
-                  affichages_gardes(ABR_F,liste_BS, jour_actuel);
-
-
+               when '3' => supp_famille(ABR_F, liste_BS, jour_actuel);
+               when '4' => affichages_gardes(ABR_F,liste_BS, jour_actuel);
                when '5' => null;
                when 'X'|'x' => exit;
                   when others => Put_Line("Ce choix n'est pas proposé, veuillez recommencer");
