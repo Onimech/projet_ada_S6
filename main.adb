@@ -11,7 +11,7 @@ procedure Main is
    BS_voulue : T_BS;
    BS_depart : T_BS;
    Pt_BS_voulue : T_PteurB;
-   jour_actuel : T_jour := samedi ; -- penser à enlever l'initialisation
+   jour_actuel : T_jour := lundi ; -- penser à enlever l'initialisation
 
    min : Integer := 100;
 

@@ -3,6 +3,7 @@ with outils, ada.Text_IO, ada.Integer_Text_IO, babysitter, famille, tarifs;
 use outils, ada.Text_IO, ada.Integer_Text_IO, babysitter, famille, tarifs;
 package body change_jour is
 
+   ------------procedure regroupant toutes les procedures necessaire au changement de jour-----------
    procedure changement_jour (J : in out T_jour; tete : in out T_PteurB; A : T_arbreF) is
       J_Veille : T_jour := J;
       F : T_mot;
@@ -12,7 +13,7 @@ package body change_jour is
       garde_prevue : boolean := false;
 
    begin
-      ---passage au jour suivant avec rebouclage--------------------------------
+      ---passage au jour suivant avec rebouclage-----------------------------------------------------
       If J = T_jour'last then
          J := T_jour'first;
       else
@@ -21,7 +22,7 @@ package body change_jour is
 
       put("Nous sommes "); put(T_jour'image(J)); new_line;
 
-      -- affichage des gardes prévues--------------------------------------------------------------------------------------
+      -- affichage des gardes prévues----------------------------------------------------------------
       if J /= dimanche then
          put_line("Les gardes du jour sont :");
          While Paux /= null loop
@@ -45,7 +46,7 @@ package body change_jour is
       else put("Il n'y a pas de garde prévues, nous sommes dimanche."); new_line;
       end if;
 
-      ---affichages des factures----------------------------------------------------------------
+      ---affichages des factures---------------------------------------------------------------------
       if J_Veille /= dimanche then
          put_line("Factures de la veille :");
          Paux := tete;
@@ -57,13 +58,14 @@ package body change_jour is
                   F := Paux.Val.plcours(J_Veille, i);
                   Famille :=  famille_pointe(A,F);
                   tarif := tarif + tarif_garde(famille.famille, i);
+                  Famille.famille.BSpred := paux;
                end if;
 
             end loop;
 
 
             if tarif /= 0 then
-               put(famille.famille.nomF); put("doit"); put(tarif,2); put(" euros à "); put(Paux.Val.identite.prenom);put(Paux.Val.identite.nom); new_line;
+               put(famille.famille.nomF); put("doit "); put(tarif,2); put(" euros à "); put(Paux.Val.identite.prenom);put(Paux.Val.identite.nom); new_line;
                --maj_argent
 
             end if;
@@ -71,34 +73,61 @@ package body change_jour is
          end loop;
       else put("Il n'y a pas eu de gardes hier, donc pas de factures"); new_line; end if;
 
-      -----mise a jour des planning-------------------------------------------------------
+      -----mise a jour des planning---
       if J = lundi then
          MAJ_planning(tete);
          Put_Line("Les plannings ont bien ete mis a jour");
-      end if;
 
-      --affichage factures globales et montants du-----------------------------------
-      if J = dimanche then
+
+      --affichage factures globales et montants du---
+      elsif  J = dimanche then
          fact_globales(A);
          montants_du(tete);
+         --suppression de toutes les baby-sitter ayant une demande de depart--
+         suppression_BS(tete);
       end if;
 
 
 
    end changement_jour;
+   --------------------------------------------------------------------------------------------------
 
 
 
-
+   ----intervertir le planning de la semaine en cours et de la semaine suivante et met a jour le nb de gardes des BS---
    procedure MAJ_planning (BS : in out T_PteurB) is
    begin
       if BS /= null then
+         MAJ_nb_gardes(BS);
          BS.Val.plcours := BS.Val.plsuiv;
          BS.Val.plsuiv := ((others => (others => (others => ' '))));
          MAJ_planning(BS.suiv);
       end if;
    end MAJ_planning;
+   --------------------------------------------------------------------------------------------------
 
+   ----------------mise à jour du nombre de gardes---------------------------------------------------
+   procedure MAJ_nb_gardes (BS : in out T_PteurB)is
+   begin
+
+      if  BS /= null then
+         for i in T_jour range lundi..samedi loop
+            for j in T_creneau'range loop
+               if BS.Val.plsuiv(i,j) /=  "                              "  then
+                  BS.Val.nb_garde := BS.Val.nb_garde -1;
+
+               end if;
+            end loop;
+         end loop;
+       MAJ_nb_gardes(BS.suiv);
+      end if;
+
+   end MAJ_nb_gardes;
+   --------------------------------------------------------------------------------------------------
+
+
+
+   ------affichages des factures de la semaine des familles------------------------------------------
    procedure fact_globales (Fam : T_arbreF) is
 
    begin
@@ -110,8 +139,10 @@ package body change_jour is
          fact_globales(fam.Fd);
       end if;
    end fact_globales;
+   --------------------------------------------------------------------------------------------------
 
 
+   ------affichages des montants du aux bs-----------------------------------------------------------
    procedure montants_du (BS : T_PteurB) is
 
    begin
@@ -122,6 +153,7 @@ package body change_jour is
          montants_du(bs.suiv);
       end if;
    end montants_du;
+   --------------------------------------------------------------------------------------------------
 
 
 

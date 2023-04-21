@@ -2,7 +2,7 @@ with ada.Text_IO, ada.Integer_Text_IO;
 use ada.Text_IO, ada.Integer_Text_IO;
 package body famille is
 
-   -------------visualisation de l'arbre des familles--------------------------------------------
+   -------------visualisation de l'arbre des familles------------------------------------------------
    procedure visu_ABR (A : T_arbreF) is --affichage symétrique pour ordre alphabétique
 
    begin
@@ -30,10 +30,10 @@ package body famille is
          visu_ABR(A.Fd);
       end if;
    end visu_ABR;
-   ------------------------------------------------------------------------------------------------------
+   --------------------------------------------------------------------------------------------------
 
 
-   ----------ajout d'une famille dans l'arbre-------------------------------------------------------------------------
+   ----------ajout d'une famille dans l'arbre--------------------------------------------------------
    Procedure ajout_ABR (A : in out T_arbreF; F : in out T_famille) is
    begin
 
@@ -56,9 +56,9 @@ package body famille is
          end if;
       end if;
    end ajout_ABR;
-   ------------------------------------------------------------------------------------------------------
+   --------------------------------------------------------------------------------------------------
 
-   -------------saisie d'une famille--------------------------------------------------------------------------
+   -------------saisie d'une famille-----------------------------------------------------------------
    Procedure saisie_famille (F : out T_famille) is
       k : integer;
 
@@ -71,9 +71,9 @@ package body famille is
       end loop;
 
    end saisie_famille;
-   -------------------------------------------------------------------------------------------------------
+   --------------------------------------------------------------------------------------------------
 
-   ---------------fonction qui associe un nom saisi à une famille-------------------------------------------
+   ---------------fonction qui associe un nom saisi à une famille------------------------------------
    function famille_pointe (A : T_arbreF; nom : T_mot) return T_arbreF is
 
    Begin
@@ -93,10 +93,10 @@ package body famille is
 
 
    end famille_pointe;
-   ----------------------------------------------------------------------------------------------------------------
+   --------------------------------------------------------------------------------------------------
 
 
-   -----------------fonction pour savoir si il y a au moins un enfant de moins de 7 ans dans une famille------------
+   -----------------fonction pour savoir si il y a au moins un enfant de moins de 7 ans dans une famille-----
    function moins7 (fam : T_famille) return boolean is
    begin
       for i in 1..Fam.NBE loop
@@ -105,12 +105,10 @@ package body famille is
       end loop;
       return false;
    end moins7;
-   ------------------------------------------------------------------------------------------------------
+   --------------------------------------------------------------------------------------------------
 
 
-
-
-
+   ----- supprime la famille-------------------------------------------------------------------------
    procedure supprime (fam : T_famille; Familles : in out T_arbreF) is
    begin
       if familles /= null then
@@ -137,9 +135,10 @@ package body famille is
          traite_max(A.fd, max);
       end if;
    end traite_max;
+   --------------------------------------------------------------------------------------------------
 
 
-    ----choix de la famille------------------------------------------------------
+    ----choix de la famille--------------------------------------------------------------------------
    procedure choix_famille (Fam: out T_arbreF; F : T_arbreF ) is
       k : Integer;
       nom : t_mot :=' '&(2..30=>' ');
@@ -150,7 +149,7 @@ package body famille is
       nom := unification(nom);
       Fam := famille_pointe(F, nom);
    end choix_famille;
-   -----------------------------------------------------------------------------
+   --------------------------------------------------------------------------------------------------
 
 
 

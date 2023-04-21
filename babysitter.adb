@@ -143,8 +143,6 @@ Package body babysitter is
    ---------------------------------------------------------------------------------------------
 
 
-
-
    -----------------fonction qui compte le nombre de garde minimun --------------------------------------------
    function min_garde (tete : T_PteurB) return Integer is
       paux : T_PteurB := tete;
@@ -190,5 +188,20 @@ Package body babysitter is
       end if;
    end modif_depart;
    --------------------------------------------------------------------------------------------------
+
+   -----supprime BS de la liste----------------------------------------------------------------
+   procedure suppression_BS (tete : in out T_PteurB) is
+
+   begin
+      if tete /= null then
+         if tete.Val.DM_depart then
+            put(tete.Val.identite.prenom); put("est bien supprime dans la liste");
+            tete := tete.suiv;
+         end if;
+         suppression_BS(tete.suiv);
+      end if;
+   end suppression_BS;
+   ----------------------------------------------------------------------------------------
+
 
 end babysitter;

@@ -2,9 +2,8 @@ with outils;
 use outils;
 
 package babysitter is
-  -- Subtype T_AgeBS is integer range 16..99;
 
-   ------definition des types---------------------------------------------------------------
+   ------definition des types------------------------------------------------------------------------
    Type T_identite is record
       nom : t_mot := (others => ' ');
       prenom : t_mot := (others => ' ');
@@ -21,28 +20,34 @@ package babysitter is
       DM_depart : boolean:= false;
       nb_garde : Integer :=0; -- nombre de gardes prevues la semaine suivante
    end record;
-   -----------------------------------------------------------------------------------------------
+   --------------------------------------------------------------------------------------------------
 
-   -------definition de la liste-------------------------------------------------------------------
+   -------definition de la liste---------------------------------------------------------------------
    Type T_cellB;
    Type T_PteurB is access T_cellB;
    Type T_cellB is record
       Val : T_BS;
       suiv : T_PteurB;
    end record;
-   ---------------------------------------------------------------------------------------------------
+   --------------------------------------------------------------------------------------------------
 
 
-   -----------sous programmes ---------------------------------------------------------------
+   -----------procedure  ----------------------------------------------------------------------------
    Procedure saisie_BS (BS : out T_BS; tete : in T_PteurB; DM_sortie : out boolean);
    Procedure Insertion_BS (BS : T_BS; tete : in out T_PteurB);
-   function homonymieBS (tete: T_PteurB; id : T_identite) return boolean;
    Procedure Visu_BS (tete : T_PteurB);
    procedure Visu_Planning (P : T_planning);
-   Function recherche_BS (BS_R : T_BS; tete : T_PteurB) return T_PteurB;
    Procedure saisie_identite (BS : out T_BS);
+   procedure modif_depart (tete : T_PteurB; BS : T_BS);
+   procedure suppression_BS (tete : in out T_PteurB);
+   --------------------------------------------------------------------------------------------------
+
+   ---function---------------------------------------------------------------------------------------
+   function homonymieBS (tete: T_PteurB; id : T_identite) return boolean;
+   Function recherche_BS (BS_R : T_BS; tete : T_PteurB) return T_PteurB;
    function min_garde (tete : T_PteurB) return Integer;
    function moins_garde (tete : T_PteurB; min : Integer) return T_PteurB;
-    procedure modif_depart (tete : T_PteurB; BS : T_BS);
-   -------------------------------------------------------------------------------------------------------------
+   --------------------------------------------------------------------------------------------------
+
+
 end babysitter;

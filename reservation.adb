@@ -87,7 +87,10 @@ Package body reservation is
          --verification que la famille n'a pas deja reserve sur ce creneau
          if pas_reserve(fam, tete, C, J) then
             loop
-               Put_Line("Vous pouvez : (1) Demander à avoir le/la Baby-sitter précedent(e), (2) Demander un/e Baby-Sitter, (3) Ne pas avoir de préférence ");
+               Put_Line("Vous pouvez :");
+               Put_Line("(1) Demander à avoir le/la Baby-sitter précedent(e)");
+               Put_Line("(2) Demander un/e Baby-Sitter");
+               Put_Line("(3) Ne pas avoir de préférence ");
                Put("Votre choix ? "); get(choix); Skip_Line;
 
                case choix is
@@ -158,7 +161,7 @@ Package body reservation is
             end loop;
 
             loop
-               put("O-Reservation d'un autre creneau avec la/le meme Baby-sitter");New_Line;
+               put("O- Reservation d'un autre creneau avec la/le meme Baby-sitter");New_Line;
                put("X- Sortir"); New_Line;
                Put_Line("Quel est votre choix ? ");
                get(choix2); Skip_Line;
@@ -201,17 +204,9 @@ Package body reservation is
          else
             Put_Line("Vous avez déjà réservé une garde pour ce créneau et ce jour, la réservation n'a pas pu aboutir");
          end if;
-
-
-
-
-
       else
          put("Il n'existe pas de famille à ce nom, la reservation n'a pas pu aboutir"); New_Line;
-
       end if;
-
-
    end resa_garde;
    ---------------------------------------------------------------------------------------------------------------------------
 
@@ -323,8 +318,6 @@ Package body reservation is
 
 
 
-
-
    --------visualisation du planning des gardes de la semaine à suivre pour une famille------------------------
    procedure visu_garde_fam_suiv (F : T_famille; BS :T_PteurB) is
 
@@ -351,8 +344,6 @@ Package body reservation is
 
 
 
-
-
    -- ================================================Annulation de gardes ======================================
 
    procedure annulation (ListeBS : in out T_PteurB; F : T_arbreF;  Jour : T_jour) is
@@ -368,12 +359,8 @@ Package body reservation is
       Put("Quel est le nom de la famille qui souhaites annuler ? ");
       choix_famille (Fam,F);
 
-
-
-
       if fam /= null then
          --affichages des gardes
-         put (fam.famille.nomF);
          affichages_gardes(fam, ListeBS, jour);
 
          --sausie du creneau et de la semaine
@@ -400,7 +387,6 @@ Package body reservation is
                if reserve(fam,ListeBS,sem_cours,C,J) then
                   enre_annulation(ListeBS, fam,sem_cours,j,c);
                else
-                  put("err1");
                   Put_Line("Aucune garde n'est prevue pour ce jour et creneau l'annulation n'a pas pu aboutir");
                end if;
             else
@@ -410,7 +396,6 @@ Package body reservation is
             if reserve(fam, ListeBS, sem_cours, c, j)  then
                enre_annulation(ListeBS, fam,sem_cours,j,c);
             else
-               put("err2");
                Put_Line("Aucune garde n'est prevue pour ce jour et creneau l'annulation n'a pas pu aboutir");
             end if;
          end if;
@@ -497,9 +482,10 @@ Package body reservation is
    begin
       choix_famille(Fam, Familles);
       facture := fam.famille.facture;
+      put("La famille "); put(fam.famille.nomF); Put_Line("a bien ete supprimee");
       supprime(fam.famille,familles);
       supp_gardes(ListesBS,fam.famille,jour_actuel);
-      put("La famille "); put(fam.famille.nomF); Put_Line("a bien ete supprimee");
+
       put("La facture s'eleve a "); put(facture,2); put(" euro(s)."); New_Line;
    end supp_famille;
    -----------------------------------------------------------------------
@@ -531,9 +517,4 @@ Package body reservation is
    ------------------------------------------------------------------------------------
 
 
-
-
-
-
-
-      end reservation;
+end reservation;
