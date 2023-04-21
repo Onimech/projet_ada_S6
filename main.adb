@@ -1,5 +1,5 @@
-with ada.Text_IO, ada.Integer_Text_IO, babysitter, initialisation, famille, outils, reservation;
-use ada.Text_IO, ada.Integer_Text_IO, babysitter, initialisation, famille, outils, reservation;
+with ada.Text_IO, ada.Integer_Text_IO, babysitter, initialisation, famille, outils, reservation, change_jour;
+use ada.Text_IO, ada.Integer_Text_IO, babysitter, initialisation, famille, outils, reservation, change_jour;
 
 procedure Main is
    choix1 , choix2: Character;
@@ -148,7 +148,7 @@ begin
                end case;
             end loop;
 
-         when '4' => null;
+         when '4' => changement_jour(jour_actuel, liste_BS, ABR_F);
          when '5' => null;
          when 'X'|'x' => exit;
             when others => put_line("Ce choix n'est pas propose, veuillez recommencer");
