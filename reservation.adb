@@ -177,10 +177,7 @@ Package body reservation is
 
                      -- choix de la BS ------------------------------------------------------------------------------------------
                      if BS_choisi /= null and then verif_dispo(BS_choisi, C,J) then
-                        if verif_ageBS(BS_choisi, fam.famille) = false then
-                           put("La/Le baby-sitter est mineur(e) et ne peut pas s'occuper de cette garde, la garde va etre attribue a quelqu'un d'autre"); New_Line;
-                           reattribution:= true;
-                        end if ;
+                        reattribution:= False;
                      else
                         Put_Line("La/Le baby-sitter demandée n'est pas le registre ou n'est pas disponible, la garde va etre attribue a quelqu'un d'autre");
                         reattribution:= true;

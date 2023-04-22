@@ -51,7 +51,7 @@ package body initialisation is
       BS.plcours(mercredi,matin) := "Poirot"&(7..30=>' ');
       BS.plcours(mercredi,aprem) := "Poirot"&(7..30=>' ');
       BS.plcours(mercredi,soir) := "Poirot"&(7..30=>' ');
-      BS.plcours(samedi,soir) := "Burma"&(6..30=>' ');
+      BS.plcours(samedi,aprem) := "Burma"&(6..30=>' ');
 
       BS.plsuiv := (others => (others => (others => ' ' )));
 

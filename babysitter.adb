@@ -18,16 +18,21 @@ Package body babysitter is
       saisie_identite(BS);
 
       While homonymieBS(tete, BS.identite) loop
-         -- loop
-            put("Un ou une babysitter porte déjà ce nom/prénom, que voulez vous faire ? 0 pour abandonner la saisie, 1 pour compléter avec un deuxième prénom"); get(choix); skip_line;
+         put("Un ou une babysitter porte déjà ce nom/prénom, que voulez vous faire ?"); New_Line;
+         Put_Line("0- pour abandonner la saisie");
+         Put_Line("1- pour compléter avec un deuxième prénom");
+         get(choix); skip_line;
             case choix is
                when '0' => put_line("Sortie"); DM_sortie := true; exit;
-                  when '1' => put("Saisissez les deux prénoms : ");BS.identite.prenom := (others => ' ');
-                  Get_Line(BS.identite.prenom,k);
-                  BS.identite.prenom := unification(BS.identite.prenom); exit;
-                  when others => put("Ce choix n'est pas proposé, veuillez ressayer"); new_line;
+               when '1' =>
+               put("Saisissez les deux prénoms : ");
+               BS.identite.prenom := (others => ' ');
+               Get_Line(BS.identite.prenom,k);
+               BS.identite.prenom := unification(BS.identite.prenom);
+               exit;
+               when others =>
+               put("Ce choix n'est pas proposé, veuillez ressayer"); new_line;
             end case;
-        --  end loop;
       end loop;
 
       If DM_sortie then

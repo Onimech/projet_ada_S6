@@ -11,14 +11,14 @@ procedure Main is
    BS_voulue : T_BS;
    BS_depart : T_BS;
    Pt_BS_voulue : T_PteurB;
-   jour_actuel : T_jour := lundi ; -- penser à enlever l'initialisation
+   jour_actuel : T_jour := DImanche ; -- penser à enlever l'initialisation
 
    min : Integer := 100;
 
 
 begin
    initialisationG(liste_BS,ABR_F);
-   montants_du(liste_BS);
+
 
 
 

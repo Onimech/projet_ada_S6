@@ -31,7 +31,16 @@ package body change_jour is
                put(Paux.Val.identite.prenom); put(Paux.Val.identite.nom);
 
                If Paux.Val.plcours(J,matin) = Paux.Val.plcours(J,aprem) and Paux.Val.plcours(J,aprem) = Paux.Val.plcours(J,soir) then
-                  put("toute la jorunée chez la famille "); put(Paux.Val.plcours(J,matin)); new_line;
+                  put("toute la journée chez la famille "); put(Paux.Val.plcours(J,matin)); new_line;
+               elsif
+                 Paux.Val.plcours(J,matin) = Paux.Val.plcours(J,aprem) then
+                  put("le matin et l'apres-midi chez la famille "); put(Paux.Val.plcours(J,matin)); new_line;
+               elsif
+                 Paux.Val.plcours(J,aprem) = Paux.Val.plcours(J,soir) then
+                  put("l'apres-midi et le soir chez la famille "); put(Paux.Val.plcours(J,matin)); new_line;
+               elsif
+                 Paux.Val.plcours(J,matin) = Paux.Val.plcours(J,soir) then
+                  put("le matin et le soir chez la famille "); put(Paux.Val.plcours(J,matin)); new_line;
                else
                   if Paux.Val.plcours(J,matin) /=  "                              " then put("le matin chez la famille "); put(Paux.Val.plcours(J,matin)); new_line; end if;
                   if Paux.Val.plcours(J,aprem) /=  "                              " then put("l'apres midi chez la famille "); put(Paux.Val.plcours(J,aprem)); new_line; end if;
@@ -48,7 +57,7 @@ package body change_jour is
 
       ---affichages des factures---------------------------------------------------------------------
       if J_Veille /= dimanche then
-         put_line("Factures de la veille :");
+         put_line("Factures de la veille (si il y a eu des gardes) :");
          Paux := tete;
          While Paux /= null loop
             Tarif := 0;-- a chaque changement de babysitter, tarif = 0
@@ -63,9 +72,11 @@ package body change_jour is
                end if;
 
             end loop;
+            New_Line;
 
 
             if tarif /= 0 then
+               put("Famille ");
                put(famille.famille.nomF); put("doit "); put(tarif,2); put(" euros à "); put(Paux.Val.identite.prenom);put(Paux.Val.identite.nom); new_line;
                maj_factures(A, Famille.famille, tarif);
                maj_montants(tete, Paux.Val, tarif);
@@ -73,21 +84,29 @@ package body change_jour is
             end if;
             Paux := Paux.suiv;
          end loop;
-      else put("Il n'y a pas eu de gardes hier, donc pas de factures"); new_line; end if;
+      else put("Il n'y a pas eu de gardes hier, donc pas de factures"); new_line;
+      end if;
+
 
       -----mise a jour des planning---
       if J = lundi then
          MAJ_planning(tete);
          Put_Line("Les plannings ont bien ete mis a jour");
          remise_zero_F(A);
-         remise_zero_BS(tete); put_line("toutes les factures des familles ont été remises à 0");
+         remise_zero_BS(tete);
+         put_line("Toutes les factures des familles ont été remises à 0");
+         New_Line;
          --affichage factures globales et montants du---
       elsif  J = dimanche then
+         Put_Line("Factures Globales");
+         fact_globales(A); New_Line;
 
-         fact_globales(A);
+         Put_Line("Montants dus aux Baby-Sitters");
          montants_du(tete);
+         New_Line;
          --suppression de toutes les baby-sitter ayant une demande de depart--
          suppression_BS(tete);
+         New_Line;
       end if;
 
 
@@ -136,7 +155,7 @@ package body change_jour is
    begin
       if Fam /= null then
          if Fam.famille.facture /= 0 then
-            put("Famille "); put(Fam.famille.nomF); put(" : "); put(fam.famille.facture); Put_Line("euros. ");
+            put("Famille "); put(Fam.famille.nomF); put(" : "); put(fam.famille.facture,2); Put_Line(" euros. ");
          end if;
 
          fact_globales(fam.Fg);
@@ -159,6 +178,7 @@ package body change_jour is
    end montants_du;
    --------------------------------------------------------------------------------------------------
 
+   -----remise à zéro de l'argent de la semaine des bs ----------------------------------------------
    procedure remise_zero_BS (tete : in out T_PteurB) is
    begin
       if tete /= null then
@@ -166,21 +186,23 @@ package body change_jour is
 
          remise_zero_BS(tete.suiv);
       else
-         put_line("toutes les montants dus aux babysitters ont été remis à 0");
+         put_line("Tous les montants dus aux babysitters ont été remis à 0.");
       end if;
 
    end remise_zero_BS;
+   --------------------------------------------------------------------------------------------------
 
 
+   ---------remise à zero des factures des familles--------------------------------------------------
    procedure remise_zero_F (A : in out T_arbreF) is
    begin
       if A /= null then
          A.famille.facture := 0;
-
          remise_zero_F(A.fg);
          remise_zero_F(A.fd);
       end if;
-
    end remise_zero_F;
+   --------------------------------------------------------------------------------------------------
+
 
 end change_jour;
