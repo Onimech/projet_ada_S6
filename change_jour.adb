@@ -4,7 +4,7 @@ use outils, ada.Text_IO, ada.Integer_Text_IO, babysitter, famille, tarifs;
 package body change_jour is
 
    ------------procedure regroupant toutes les procedures necessaire au changement de jour-----------
-   procedure changement_jour (J : in out T_jour; tete : in out T_PteurB; A : T_arbreF) is
+   procedure changement_jour (J : in out T_jour; tete : in out T_PteurB; A : in out T_arbreF) is
       J_Veille : T_jour := J;
       F : T_mot;
       Famille : T_arbreF;
@@ -79,8 +79,8 @@ package body change_jour is
       if J = lundi then
          MAJ_planning(tete);
          Put_Line("Les plannings ont bien ete mis a jour");
-
-
+         remise_zero_F(A);
+         remise_zero_BS(tete); put_line("toutes les factures des familles ont été remises à 0");
          --affichage factures globales et montants du---
       elsif  J = dimanche then
 
@@ -135,8 +135,9 @@ package body change_jour is
 
    begin
       if Fam /= null then
-
-         put("Famille "); put(Fam.famille.nomF); put(" : "); put(fam.famille.facture); Put_Line("euros. ");
+         if Fam.famille.facture /= 0 then
+            put("Famille "); put(Fam.famille.nomF); put(" : "); put(fam.famille.facture); Put_Line("euros. ");
+         end if;
 
          fact_globales(fam.Fg);
          fact_globales(fam.Fd);
@@ -151,14 +152,35 @@ package body change_jour is
    begin
       if BS/=null then
          if BS.Val.argent_semaine /= 0 then
-            put(BS.Val.identite.prenom); put(BS.Val.identite.prenom); put(" : "); put(BS.Val.argent_semaine,2); Put_Line(" euros.");
+            put(BS.Val.identite.prenom); put(BS.Val.identite.nom); put(" : "); put(BS.Val.argent_semaine,2); Put_Line(" euros.");
          end if;
          montants_du(bs.suiv);
       end if;
    end montants_du;
    --------------------------------------------------------------------------------------------------
 
+   procedure remise_zero_BS (tete : in out T_PteurB) is
+   begin
+      if tete /= null then
+         tete.Val.argent_semaine := 0;
+
+         remise_zero_BS(tete.suiv);
+      else
+         put_line("toutes les montants dus aux babysitters ont été remis à 0");
+      end if;
+
+   end remise_zero_BS;
 
 
+   procedure remise_zero_F (A : in out T_arbreF) is
+   begin
+      if A /= null then
+         A.famille.facture := 0;
+
+         remise_zero_F(A.fg);
+         remise_zero_F(A.fd);
+      end if;
+
+   end remise_zero_F;
 
 end change_jour;
