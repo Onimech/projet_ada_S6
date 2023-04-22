@@ -67,7 +67,8 @@ package body change_jour is
 
             if tarif /= 0 then
                put(famille.famille.nomF); put("doit "); put(tarif,2); put(" euros à "); put(Paux.Val.identite.prenom);put(Paux.Val.identite.nom); new_line;
-              maj_factures(A, Famille.famille, tarif);
+               maj_factures(A, Famille.famille, tarif);
+               maj_montants(tete, Paux.Val, tarif);
 
             end if;
             Paux := Paux.suiv;
@@ -80,7 +81,7 @@ package body change_jour is
          Put_Line("Les plannings ont bien ete mis a jour");
 
 
-      --affichage factures globales et montants du---
+         --affichage factures globales et montants du---
       elsif  J = dimanche then
 
          fact_globales(A);
@@ -121,7 +122,7 @@ package body change_jour is
                end if;
             end loop;
          end loop;
-       MAJ_nb_gardes(BS.suiv);
+         MAJ_nb_gardes(BS.suiv);
       end if;
 
    end MAJ_nb_gardes;
@@ -135,7 +136,7 @@ package body change_jour is
    begin
       if Fam /= null then
 
-            put("Famille "); put(Fam.famille.nomF); put(" : "); put(fam.famille.facture); Put_Line("euros. ");
+         put("Famille "); put(Fam.famille.nomF); put(" : "); put(fam.famille.facture); Put_Line("euros. ");
 
          fact_globales(fam.Fg);
          fact_globales(fam.Fd);

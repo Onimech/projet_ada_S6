@@ -65,9 +65,34 @@ package body tarifs is
             maj_factures(A.Fg, Famille, ajout);
             maj_factures(A.Fd, Famille, ajout);
          end if;
-
       end if;
-   end maj_factures;
+
+      end maj_factures;
+      procedure maj_montants(tete : T_PteurB; BS : T_BS; ajout : integer) is
+
+      begin
+         if tete /= null then
+            If tete.val.identite = BS.identite then
+               tete.val.argent_semaine :=  tete.val.argent_semaine + ajout;
+            else
+               --  for i in T_jour'range loop
+               --    for j in T_creneau'range loop
+               --      while Paux /= null loop
+               --         if Paux.Val.plcours(i,j) = A.famille.nomF then
+               --          A.famille.facture := A.famille.facture + tarif_garde(A.famille, J);
+               --         put_line("ajout de :"); put(tarif_garde(A.famille, J));
+               --     end if;
+               --     paux := paux.suiv;
+               -- end loop;
+               -- end loop;
+               -- end loop;
 
 
-end tarifs;
+               maj_montants(tete.suiv, BS, ajout);
+            end if;
+
+         end if;
+      end maj_montants;
+
+
+   end tarifs;

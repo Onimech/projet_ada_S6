@@ -19,7 +19,6 @@ procedure Main is
 begin
    initialisationG(liste_BS,ABR_F);
    montants_du(liste_BS);
-   fact_globales(ABR_F);
 
 
 
