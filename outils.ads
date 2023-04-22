@@ -2,7 +2,7 @@
 Package outils is
 
    ----definition des sous types---------------------------------------------------------------------
-   Subtype T_AgeBS is integer range 16..99;
+   Subtype T_AgeBS is integer range 0..99;
    subtype T_AgeE is integer range 0..12;
    subtype T_NBE is integer range 1..8;
 

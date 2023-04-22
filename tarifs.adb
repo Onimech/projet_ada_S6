@@ -1,5 +1,5 @@
-with outils, babysitter, famille, ada.Text_IO;
-use outils, babysitter, famille, ada.Text_IO;
+with outils, babysitter, famille, ada.Text_IO, ada.Integer_Text_IO;
+use outils, babysitter, famille, ada.Text_IO, ada.Integer_Text_IO;
 
 package body tarifs is
 
@@ -30,7 +30,7 @@ package body tarifs is
 
       ---surplus si ya plus d'un enfant--------------------------------------------------------------
       if famille.NBE >1 then
-          for i in 2..Famille.NBE loop
+         for i in 2..Famille.NBE loop
             if Famille.ages(i) < 7 then facture := facture + 3;
             else
                facture := facture +2;
@@ -42,5 +42,32 @@ package body tarifs is
    --------------------------------------------------------------------------------------------------
 
 
-  --procedure maj_argent(tete : T_PteurB; A : T_arbreF; F : T_famille; BS :
+   procedure maj_factures(A : T_arbreF; Famille : T_famille; ajout : integer) is
+
+   begin
+      if A /= null then
+         If A.famille.nomF = Famille.nomF then
+            A.famille.facture :=  A.famille.facture + ajout;
+         else
+            --  for i in T_jour'range loop
+            --    for j in T_creneau'range loop
+            --      while Paux /= null loop
+            --         if Paux.Val.plcours(i,j) = A.famille.nomF then
+            --          A.famille.facture := A.famille.facture + tarif_garde(A.famille, J);
+            --         put_line("ajout de :"); put(tarif_garde(A.famille, J));
+            --     end if;
+            --     paux := paux.suiv;
+            -- end loop;
+            -- end loop;
+            -- end loop;
+
+
+            maj_factures(A.Fg, Famille, ajout);
+            maj_factures(A.Fd, Famille, ajout);
+         end if;
+
+      end if;
+   end maj_factures;
+
+
 end tarifs;

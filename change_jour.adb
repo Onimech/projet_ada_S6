@@ -58,6 +58,7 @@ package body change_jour is
                   F := Paux.Val.plcours(J_Veille, i);
                   Famille :=  famille_pointe(A,F);
                   tarif := tarif + tarif_garde(famille.famille, i);
+
                   Famille.famille.BSpred := paux;
                end if;
 
@@ -66,7 +67,7 @@ package body change_jour is
 
             if tarif /= 0 then
                put(famille.famille.nomF); put("doit "); put(tarif,2); put(" euros à "); put(Paux.Val.identite.prenom);put(Paux.Val.identite.nom); new_line;
-               --maj_argent
+              maj_factures(A, Famille.famille, tarif);
 
             end if;
             Paux := Paux.suiv;
@@ -81,6 +82,7 @@ package body change_jour is
 
       --affichage factures globales et montants du---
       elsif  J = dimanche then
+
          fact_globales(A);
          montants_du(tete);
          --suppression de toutes les baby-sitter ayant une demande de depart--
@@ -132,9 +134,9 @@ package body change_jour is
 
    begin
       if Fam /= null then
-         if fam.famille.facture /= 0 then
+
             put("Famille "); put(Fam.famille.nomF); put(" : "); put(fam.famille.facture); Put_Line("euros. ");
-         end if;
+
          fact_globales(fam.Fg);
          fact_globales(fam.Fd);
       end if;

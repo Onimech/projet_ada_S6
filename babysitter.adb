@@ -18,7 +18,7 @@ Package body babysitter is
       saisie_identite(BS);
 
       While homonymieBS(tete, BS.identite) loop
-         loop
+         -- loop
             put("Un ou une babysitter porte déjà ce nom/prénom, que voulez vous faire ? 0 pour abandonner la saisie, 1 pour compléter avec un deuxième prénom"); get(choix); skip_line;
             case choix is
                when '0' => put_line("Sortie"); DM_sortie := true; exit;
@@ -27,7 +27,7 @@ Package body babysitter is
                   BS.identite.prenom := unification(BS.identite.prenom); exit;
                   when others => put("Ce choix n'est pas proposé, veuillez ressayer"); new_line;
             end case;
-         end loop;
+        --  end loop;
       end loop;
 
       If DM_sortie then
@@ -35,7 +35,6 @@ Package body babysitter is
          BS.identite.nom := (others => ' ');
       else
          saisie_age_BS(BS.age);
-
 
       end if;
    end saisie_BS;

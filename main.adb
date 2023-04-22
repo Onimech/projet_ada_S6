@@ -81,8 +81,9 @@ begin
                when '2' =>
                   if jour_actuel = dimanche then
                      saisie_BS(BS_ajout, liste_BS, sortie);
-                     If sortie = false then
+                     If sortie = false and then BS_ajout.age >= 16 then
                         Insertion_BS(bs_ajout, liste_BS);
+                        elsif bs_ajout.age < 16 and then sortie = false then put_line("le ou la babysitter saisi(e) a moins de 16 ans, abandon");
                      end if;
                   else
                      Put_Line("L'ajout n'est pas possible, veuillez ressayer dimanche.");

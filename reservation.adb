@@ -477,12 +477,20 @@ Package body reservation is
    ------------procedure qui supprime la famille -----------------------------------------------------------
    procedure supp_famille (Familles : in out  T_arbreF; ListesBS : in out T_PteurB; jour_actuel : T_jour) is
       Fam : T_arbreF;
-      Facture : Integer := 0;
+      facture : integer := 0;
+
 
    begin
       choix_famille(Fam, Familles);
       facture := fam.famille.facture;
       put("La famille "); put(fam.famille.nomF); Put_Line("a bien ete supprimee");
+
+     -- for i in t_jour'range loop
+     --    for j in T_creneau'range loop
+
+      --   end loop;
+      --end loop;
+
       supprime(fam.famille,familles);
       supp_gardes(ListesBS,fam.famille,jour_actuel);
 
