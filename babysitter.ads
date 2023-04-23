@@ -38,7 +38,7 @@ package babysitter is
    Procedure Visu_BS (tete : T_PteurB);
    procedure Visu_Planning (P : T_planning);
    Procedure saisie_identite (BS : out T_BS);
-   procedure modif_depart (tete : T_PteurB; BS : T_BS);
+   procedure modif_depart (tete : T_PteurB; BS : T_BS; trouve : out Boolean);
    procedure suppression_BS (tete : in out T_PteurB);
    --------------------------------------------------------------------------------------------------
 

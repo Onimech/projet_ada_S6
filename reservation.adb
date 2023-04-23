@@ -417,7 +417,6 @@ Package body reservation is
                if sem_cours then
                   if ListeBS.Val.plcours(J,C) = fam.famille.nomF then
                      ListeBS.Val.plcours(j,C) := "                              ";
-                     ListeBS.Val.nb_garde := ListeBS.Val.nb_garde -1;
                      put("La réservation avec "); put(ListeBS.Val.identite.prenom); put("est annulee. "); New_Line;
                   end if;
                else

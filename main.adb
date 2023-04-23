@@ -11,8 +11,8 @@ procedure Main is
    BS_voulue : T_BS;
    BS_depart : T_BS;
    Pt_BS_voulue : T_PteurB;
-   jour_actuel : T_jour := DImanche ; -- penser à enlever l'initialisation
-
+   jour_actuel : T_jour := LUNDI ;
+   trouve :Boolean := false;
    min : Integer := 100;
 
 
@@ -30,7 +30,7 @@ begin
       Put_Line("2- Espace Baby-Sitter");
       Put_Line("3- Gestion des gardes");
       Put_Line("4- Passer au jour suivant");
-      Put_Line("5- Sauvegarde");
+      --Put_Line("5- Sauvegarde");
       Put_Line("X- Sortir");
 
       Put("Quel est votre choix ? "); get(choix1); Skip_Line;
@@ -43,7 +43,7 @@ begin
                Put_Line("2- Inscrire une famille ");
                Put_Line("3- Désinscrire une famille  ");
                Put_Line("4- Affichage planning des gardes pour une famille  ");
-               Put_Line("5- Statistiques liées aux familles ");
+               --Put_Line("5- Statistiques liées aux familles ");
                Put_Line("X- Sortir");
 
                put("Quel est votre choix ? "); get(choix2); Skip_Line;
@@ -53,7 +53,7 @@ begin
                when '2' => saisie_famille(Famille); ajout_ABR(ABR_F,famille);
                when '3' => supp_famille(ABR_F, liste_BS, jour_actuel);
                when '4' => affichages_gardes(ABR_F,liste_BS, jour_actuel);
-               when '5' => null;
+               --when '5' => null;
                when 'X'|'x' => exit;
                   when others => Put_Line("Ce choix n'est pas proposé, veuillez recommencer");
                end case;
@@ -68,8 +68,8 @@ begin
                Put_Line("2- Ajouter une/un baby-sitter  ");
                Put_Line("3- Effectuer une demande de départ");
                Put_Line("4- Affichage plannings de la semaine ");
-               Put_Line("5- Statistiques liées aux baby-sitters ");
-               Put_Line("6- Afficher les demandes de départs");
+               --Put_Line("5- Statistiques liées aux baby-sitters ");
+               --Put_Line("6- Afficher les demandes de départs");
                Put_Line("X- Sortir");
 
 
@@ -82,7 +82,7 @@ begin
                      saisie_BS(BS_ajout, liste_BS, sortie);
                      If sortie = false and then BS_ajout.age >= 16 then
                         Insertion_BS(bs_ajout, liste_BS);
-                        elsif bs_ajout.age < 16 and then sortie = false then put_line("le ou la babysitter saisi(e) a moins de 16 ans, abandon");
+                        elsif bs_ajout.age < 16 and then sortie = false then put_line("Le ou la babysitter saisi(e) a moins de 16 ans, abandon de l'ajout.");
                      end if;
                   else
                      Put_Line("L'ajout n'est pas possible, veuillez ressayer dimanche.");
@@ -91,11 +91,16 @@ begin
                when '3' => If jour_actuel = dimanche then
                      put_line("Pour quelle babysitter voulez-vous faire la demande de départ ?");
                      saisie_identite(BS_depart);
-                     modif_depart(liste_BS, BS_depart);
-                     put_line("La demande de départ a bien été prise en compte");
+                     modif_depart(liste_BS, BS_depart, trouve);
+                     if trouve then
+                        put_line("La demande de départ a bien été prise en compte");
+                     else
+                        Put_Line("La/Le Baby-sitter n'a pas été trouvé dans le registre, la demande n'a pas pu aboutir");
+                     end if;
 
 
-                  else put_line("la demande de départ n'est pas possible, veuillez ressayer dimanche");
+
+                  else put_line("La demande de départ n'est pas possible, veuillez ressayer dimanche");
                   end if;
 
                when '4' =>
@@ -121,8 +126,8 @@ begin
                   else Put_Line("Le/La Baby-sitter n'a pas été trouvé(e) dans la liste, veuillez recommencer. "); New_Line;
                   end if;
 
-                  when '5' => null;
-                  when '6' => null;
+                  --when '5' => null;
+                  --when '6' => null;
                   when 'X'|'x' => exit;
                      when others => put_line("Ce choix n'est pas propose, veuillez recommencer");
                end case;
@@ -134,7 +139,7 @@ begin
                Put_Line("Vous pouvez acceder : ");
                Put_Line("1- Reservation d'une garde");
                Put_Line("2- Annulation d'une garde");
-               Put_Line("3- Statistiques liees aux gardes");
+               --Put_Line("3- Statistiques liees aux gardes");
                Put_Line("X- Sortir");
 
                Put("Quel est votre choix ? "); get(choix2); Skip_Line;
@@ -142,14 +147,14 @@ begin
                case choix2 is
                   when '1' => resa_garde(liste_BS, ABR_F);
                   when '2' => annulation(liste_BS, ABR_F, jour_actuel);
-                  when '3' => null;
+                  --when '3' => null;
                   when 'X'|'x' => exit;
                      when others => put_line("Ce choix n'est pas propose, veuillez recommencer");
                end case;
             end loop;
 
          when '4' => changement_jour(jour_actuel, liste_BS, ABR_F);
-         when '5' => null;
+         --when '5' => null;
          when 'X'|'x' => exit;
             when others => put_line("Ce choix n'est pas propose, veuillez recommencer");
       end case;

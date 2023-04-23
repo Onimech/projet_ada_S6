@@ -33,12 +33,15 @@ package body change_jour is
                If Paux.Val.plcours(J,matin) = Paux.Val.plcours(J,aprem) and Paux.Val.plcours(J,aprem) = Paux.Val.plcours(J,soir) then
                   put("toute la journée chez la famille "); put(Paux.Val.plcours(J,matin)); new_line;
                elsif
+                 Paux.Val.plcours(J,matin) /=  "                              " and then
                  Paux.Val.plcours(J,matin) = Paux.Val.plcours(J,aprem) then
                   put("le matin et l'apres-midi chez la famille "); put(Paux.Val.plcours(J,matin)); new_line;
                elsif
+                 Paux.Val.plcours(J,aprem) /=  "                              " and then
                  Paux.Val.plcours(J,aprem) = Paux.Val.plcours(J,soir) then
-                  put("l'apres-midi et le soir chez la famille "); put(Paux.Val.plcours(J,matin)); new_line;
+                  put("l'apres-midi et le soir chez la famille "); put(Paux.Val.plcours(J,aprem)); new_line;
                elsif
+                 Paux.Val.plcours(J,matin) /=  "                              " and then
                  Paux.Val.plcours(J,matin) = Paux.Val.plcours(J,soir) then
                   put("le matin et le soir chez la famille "); put(Paux.Val.plcours(J,matin)); new_line;
                else
@@ -72,8 +75,6 @@ package body change_jour is
                end if;
 
             end loop;
-            New_Line;
-
 
             if tarif /= 0 then
                put("Famille ");
@@ -86,6 +87,7 @@ package body change_jour is
          end loop;
       else put("Il n'y a pas eu de gardes hier, donc pas de factures"); new_line;
       end if;
+      New_Line;
 
 
       -----mise a jour des planning---
@@ -133,14 +135,7 @@ package body change_jour is
    begin
 
       if  BS /= null then
-         for i in T_jour range lundi..samedi loop
-            for j in T_creneau'range loop
-               if BS.Val.plsuiv(i,j) /=  "                              "  then
-                  BS.Val.nb_garde := BS.Val.nb_garde -1;
-
-               end if;
-            end loop;
-         end loop;
+         BS.Val.nb_garde := 0;
          MAJ_nb_gardes(BS.suiv);
       end if;
 

@@ -79,7 +79,8 @@ Package body babysitter is
          if tete.Val.DM_depart then
             put("Oui ");
          else put("Non ");
-         end if;
+         end if; New_Line;
+         put("Nombres de gardes la semaine prochaine : "); put(tete.Val.nb_garde,2); New_Line;
          New_Line; New_Line;
          Visu_BS(tete.suiv);
       end if;
@@ -181,13 +182,14 @@ Package body babysitter is
    --------------------------------------------------------------------------------------------------
 
    -----------demande de départ d'un/une BS---------------------------------------------
-   procedure modif_depart (tete : T_PteurB; BS : T_BS) is
+   procedure modif_depart (tete : T_PteurB; BS : T_BS; trouve : out Boolean) is
    begin
       if tete /= null then
          if BS.identite = tete.Val.identite then
             tete.val.DM_depart := true;
+            trouve := true;
          else
-            modif_depart(tete.suiv, BS);
+            modif_depart(tete.suiv, BS, trouve);
          end if;
       end if;
    end modif_depart;
