@@ -11,7 +11,7 @@ procedure Main is
    BS_voulue : T_BS;
    BS_depart : T_BS;
    Pt_BS_voulue : T_PteurB;
-   jour_actuel : T_jour := LUNDI ;
+   jour_actuel : T_jour := dimanche ;
    trouve :Boolean := false;
    min : Integer := 100;
 
@@ -168,10 +168,12 @@ begin
                      BF_fam;
                      save_fam(ABR_F);
                      save_jour(jour_actuel);
+                     Put_Line("Sauvegarde effectuée");
                   when '2'=>
                      recup_BS(liste_BS);
                      recup_fam(ABR_F);
                      recup_jour(jour_actuel);
+                     Put_Line("Sauvegarde recuperée");
                   when 'x'|'X'=>
                      exit;
                   when others =>

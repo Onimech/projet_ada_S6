@@ -22,6 +22,17 @@ package body change_jour is
 
       put("Nous sommes "); put(T_jour'image(J)); new_line;
 
+
+      if J = lundi then
+         MAJ_planning(tete);
+         Put_Line("Les plannings ont bien ete mis a jour");
+         remise_zero_F(A);
+         remise_zero_BS(tete);
+         put_line("Toutes les factures des familles ont été remises à 0");
+         New_Line;
+      END IF;
+
+
       -- affichage des gardes prévues----------------------------------------------------------------
       if J /= dimanche then
          put_line("Les gardes du jour sont :");
@@ -90,16 +101,8 @@ package body change_jour is
       New_Line;
 
 
-      -----mise a jour des planning---
-      if J = lundi then
-         MAJ_planning(tete);
-         Put_Line("Les plannings ont bien ete mis a jour");
-         remise_zero_F(A);
-         remise_zero_BS(tete);
-         put_line("Toutes les factures des familles ont été remises à 0");
-         New_Line;
          --affichage factures globales et montants du---
-      elsif  J = dimanche then
+      if  J = dimanche then
          Put_Line("Factures Globales");
          fact_globales(A); New_Line;
 
