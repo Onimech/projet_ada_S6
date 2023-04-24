@@ -1,8 +1,8 @@
-with ada.Text_IO, ada.Integer_Text_IO, babysitter, initialisation, famille, outils, reservation, change_jour;
-use ada.Text_IO, ada.Integer_Text_IO, babysitter, initialisation, famille, outils, reservation, change_jour;
+with ada.Text_IO, ada.Integer_Text_IO,enregistrement, babysitter, initialisation, famille, outils, reservation, change_jour;
+use ada.Text_IO, ada.Integer_Text_IO,enregistrement, babysitter, initialisation, famille, outils, reservation, change_jour;
 
 procedure Main is
-   choix1 , choix2: Character;
+   choix1 , choix2, choix3: Character;
    bs_ajout : t_bs;
    liste_BS : T_PteurB;
    sortie : boolean;
@@ -19,21 +19,21 @@ procedure Main is
 begin
    initialisationG(liste_BS,ABR_F);
 
-
-
-
-
    Put_Line("BIENVENUE SUR L APPLICATION 'NOS CHERS PETITS' !!!");
+
+   put("Nous sommes "); put(T_jour'image(jour_actuel)); New_Line;
    loop
       Put_Line("Vous pouvez acceder : ");
       Put_Line("1- Espace famille");
       Put_Line("2- Espace Baby-Sitter");
       Put_Line("3- Gestion des gardes");
       Put_Line("4- Passer au jour suivant");
-      --Put_Line("5- Sauvegarde");
+      Put_Line("5- Sauvegarde");
       Put_Line("X- Sortir");
+      New_Line;
 
       Put("Quel est votre choix ? "); get(choix1); Skip_Line;
+      New_Line;
 
       case choix1 is
          when '1' =>
@@ -154,7 +154,32 @@ begin
             end loop;
 
          when '4' => changement_jour(jour_actuel, liste_BS, ABR_F);
-         --when '5' => null;
+         when '5' =>
+            loop
+               Put_Line("Vous pouvez :");
+               Put_Line("1- Sauvegarder");
+               Put_Line("2- Restaurer la dernière sauvegarde");
+               Put_Line("X- Quitter");
+               get(choix3); Skip_Line;
+
+               case choix3 is
+                  when'1' =>
+                     save_BS(liste_BS);
+                     BF_fam;
+                     save_fam(ABR_F);
+                     save_jour(jour_actuel);
+                  when '2'=>
+                     recup_BS(liste_BS);
+                     recup_fam(ABR_F);
+                     recup_jour(jour_actuel);
+                  when 'x'|'X'=>
+                     exit;
+                  when others =>
+                     Put_Line("Ce choix n'est pas proposé, veuillez reessayer");
+               end case;
+            end loop;
+
+
          when 'X'|'x' => exit;
             when others => put_line("Ce choix n'est pas propose, veuillez recommencer");
       end case;
